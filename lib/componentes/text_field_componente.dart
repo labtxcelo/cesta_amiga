@@ -124,7 +124,7 @@ class _TextFieldComponenteState extends State<TextFieldComponente> {
                                     this.showPassword = !this.showPassword;
                                   });
                                 },
-                                icon: Icon(Icons.remove_circle_outline_rounded),
+                                icon: Icon(Icons.remove_red_eye),
                                 color: Colors.blueGrey,
                               )
                             : SizedBox.shrink(),
