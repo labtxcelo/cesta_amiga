@@ -24,6 +24,21 @@ mixin _$LoginController on _LoginControllerBase, Store {
     });
   }
 
+  final _$typePeopleAtom = Atom(name: '_LoginControllerBase.typePeople');
+
+  @override
+  TypePeopleState get typePeople {
+    _$typePeopleAtom.reportRead();
+    return super.typePeople;
+  }
+
+  @override
+  set typePeople(TypePeopleState value) {
+    _$typePeopleAtom.reportWrite(value, super.typePeople, () {
+      super.typePeople = value;
+    });
+  }
+
   final _$_LoginControllerBaseActionController =
       ActionController(name: '_LoginControllerBase');
 
@@ -39,9 +54,21 @@ mixin _$LoginController on _LoginControllerBase, Store {
   }
 
   @override
+  dynamic changeTypePeople(TypePeopleState type) {
+    final _$actionInfo = _$_LoginControllerBaseActionController.startAction(
+        name: '_LoginControllerBase.changeTypePeople');
+    try {
+      return super.changeTypePeople(type);
+    } finally {
+      _$_LoginControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
-cadastro: ${cadastro}
+cadastro: ${cadastro},
+typePeople: ${typePeople}
     ''';
   }
 }

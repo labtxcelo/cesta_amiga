@@ -1,8 +1,18 @@
+import 'dart:math';
+
 import 'package:cesta_amiga/componentes/text_field_componente.dart';
 import 'package:cesta_amiga/controllers/login_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
+import '../controllers/login_controller.dart';
+import '../controllers/login_controller.dart';
+import '../controllers/login_controller.dart';
+import '../controllers/login_controller.dart';
+import '../controllers/login_controller.dart';
+import '../controllers/login_controller.dart';
+import '../controllers/login_controller.dart';
+import '../controllers/login_controller.dart';
 import '../controllers/login_controller.dart';
 import '../controllers/login_controller.dart';
 import '../controllers/login_controller.dart';
@@ -37,12 +47,48 @@ Widget _buildBody(BuildContext context, LoginController loginController) {
               borderRadius: BorderRadius.circular(8),
               color: Colors.white,
             ),
-            height: loginController.cadastro == false ? 350 : 550,
             width: 300,
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 children: [
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: Row(
+                        mainAxisAlignment: loginController.cadastro == false
+                            ? MainAxisAlignment.center
+                            : MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          loginController.cadastro == false
+                              ? Container()
+                              : Padding(
+                                  padding: const EdgeInsets.only(right: 58),
+                                  child: IconButton(
+                                    onPressed: () {
+                                      loginController.changeCadastro(false);
+                                    },
+                                    icon: Icon(Icons.chevron_left_outlined),
+                                  ),
+                                ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                loginController.cadastro == false
+                                    ? "Bem vindo ao Cesta Amiga!"
+                                    : "Cadastro",
+                                style: TextStyle(
+                                    color: Colors.blueAccent,
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.bold),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          )
+                        ]),
+                  ),
                   Image.asset("images/icCesta.png", height: 60, width: 60),
                   SizedBox(
                     height: 16,
@@ -50,12 +96,34 @@ Widget _buildBody(BuildContext context, LoginController loginController) {
                   Observer(
                       builder: (_) => loginController.cadastro == false
                           ? _buildConteudoLogin(context, loginController)
-                          : _buildConteudoCadastro(context, loginController))
+                          : _buildConteudoCadastro(context, loginController)),
+                  Observer(
+                      builder: (_) => loginController.cadastro == false
+                          ? Container()
+                          : _textReturn(context, loginController))
                 ],
               ),
             )),
       )
     ],
+  );
+}
+
+Widget _textReturn(BuildContext context, LoginController loginController) {
+  return Padding(
+    padding: const EdgeInsets.only(top: 12),
+    child: InkWell(
+      onTap: () {
+        loginController.changeCadastro(false);
+      },
+      child: Text(
+        "Já sou cadastrado!",
+        style: TextStyle(
+            color: Colors.blueAccent,
+            fontSize: 12,
+            fontWeight: FontWeight.bold),
+      ),
+    ),
   );
 }
 
@@ -128,6 +196,8 @@ Widget _buildConteudoCadastro(
     child: ListView(
       scrollDirection: Axis.vertical,
       children: [
+        _buildRadios(context, loginController),
+        SizedBox(height: 12),
         TextFieldComponente(
           title: "Nome Completo",
           inputType: TextInputType.text,
@@ -153,10 +223,23 @@ Widget _buildConteudoCadastro(
           height: 8,
         ),
         TextFieldComponente(
-          title: "CPF",
+          title:
+              loginController.typePeople == TypePeopleState.PF ? "CPF" : "CNPJ",
           inputType: TextInputType.number,
           maxLength: 48,
         ),
+        loginController.typePeople == TypePeopleState.PF
+            ? Container()
+            : Column(
+                children: [
+                  SizedBox(height: 8),
+                  TextFieldComponente(
+                    title: "Razão Social",
+                    inputType: TextInputType.number,
+                    maxLength: 60,
+                  ),
+                ],
+              ),
         SizedBox(
           height: 8,
         ),
@@ -215,5 +298,58 @@ Widget _buildConteudoCadastro(
         ),
       ],
     ),
+  );
+}
+
+_buildRadios(BuildContext context, LoginController loginController) {
+  return Observer(
+    builder: (_) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Radio(
+                value: TypePeopleState.PF,
+                onChanged: (type) {
+                  loginController.changeTypePeople(TypePeopleState.PF);
+                  // tipoPessoa = 'PF';
+                  // txtDocumentoCadastro.clear();
+                },
+                activeColor: Colors.blueAccent,
+                groupValue: loginController.typePeople,
+              ),
+              Text("Pessoa Física",
+                  style: TextStyle(
+                      fontSize: 14,
+                      color: loginController.typePeople == TypePeopleState.PF
+                          ? Colors.blueAccent
+                          : Colors.grey)),
+            ],
+          ),
+          Column(
+            children: <Widget>[
+              Radio(
+                value: TypePeopleState.PJ,
+                activeColor: Colors.blueAccent,
+                onChanged: (type) {
+                  loginController.changeTypePeople(TypePeopleState.PJ);
+                  // tipoPessoa = 'PJ';
+                  // txtDocumentoCadastro.clear();
+                },
+                groupValue: loginController.typePeople,
+              ),
+              Text("Pessoa Jurídica",
+                  style: TextStyle(
+                      fontSize: 14,
+                      color: loginController.typePeople == TypePeopleState.PJ
+                          ? Colors.blueAccent
+                          : Colors.grey))
+            ],
+          )
+        ],
+      );
+    },
   );
 }
