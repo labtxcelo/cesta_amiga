@@ -40,6 +40,33 @@
       });
     }
   </script>
+
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-analytics.js"></script>
+
+<script>
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  var firebaseConfig = {
+    apiKey: "AIzaSyBCq1r7W7apAldyMguFxVBu4e9c-SlfxDk",
+    authDomain: "cesta-amiga.firebaseapp.com",
+    databaseURL: "https://cesta-amiga.firebaseio.com",
+    projectId: "cesta-amiga",
+    storageBucket: "cesta-amiga.appspot.com",
+    messagingSenderId: "238207341340",
+    appId: "1:238207341340:web:a8f2f21c5d22112ecb20d9",
+    measurementId: "G-77VM7VN4N5"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+</script>
+
   <script src="main.dart.js" type="application/javascript"></script>
 </body>
 </html>

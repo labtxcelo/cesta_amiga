@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class TextFieldComponente extends StatefulWidget {
   final String placeholder;
@@ -93,7 +94,7 @@ class _TextFieldComponenteState extends State<TextFieldComponente> {
                       ? widget.textCapitalization
                       : TextCapitalization.none,
                   keyboardAppearance: Brightness.dark,
-                  //inputFormatters: this._getFormatters(),
+                  inputFormatters: this._getFormatters(),
                   cursorColor: Colors.black,
                   onChanged: widget.onChanged,
                   textAlign: TextAlign.start,
@@ -141,15 +142,15 @@ class _TextFieldComponenteState extends State<TextFieldComponente> {
     );
   }
 
-  // List<TextInputFormatter> _getFormatters() {
-  //   if (this.widget.mask != null) {
-  //     var maskFormatter = new MaskTextInputFormatter(mask: this.widget.mask, filter: {"#": RegExp(r'[0-9]')});
-  //     return [maskFormatter];
-  //   }else if(this.widget.maxLength != null){
-  //     var lenghtLimit  = LengthLimitingTextInputFormatter(this.widget.maxLength);
-  //     return [lenghtLimit];
-
-  //   }
-  //   return [];
-  // }
+  List<TextInputFormatter> _getFormatters() {
+    if (this.widget.mask != null) {
+      var maskFormatter = new MaskTextInputFormatter(
+          mask: this.widget.mask, filter: {"#": RegExp(r'[0-9]')});
+      return [maskFormatter];
+    } else if (this.widget.maxLength != null) {
+      var lenghtLimit = LengthLimitingTextInputFormatter(this.widget.maxLength);
+      return [lenghtLimit];
+    }
+    return [];
+  }
 }
