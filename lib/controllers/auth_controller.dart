@@ -1,8 +1,5 @@
-import 'dart:html';
-
 import 'package:cesta_amiga/screens/feed_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_auth_web/firebase_auth_web.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:mobx/mobx.dart';
 
@@ -12,10 +9,16 @@ part 'auth_controller.g.dart';
 class AuthController = _AuthControllerBase with _$AuthController;
 
 abstract class _AuthControllerBase with Store {
+  FirebaseAuth _auth = FirebaseAuth.instance;
+
+  // User _userFromFirebase(FirebaseUser user) {
+  //   return user;
+  // }
+
   @action
   checkAuth() {
     StreamBuilder(
-      stream: FirebaseAuthWeb.instance.authStateChanges(),
+      stream: FirebaseAuth.instance.onAuthStateChanged,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return FeedScreen();
@@ -28,13 +31,13 @@ abstract class _AuthControllerBase with Store {
 
   @action
   signOut() {
-    FirebaseAuthWeb.instance.signOut();
+    _auth.signOut();
   }
 
   @action
   signIn(email, password) {
-    FirebaseAuthWeb.instance
-        .signInWithEmailAndPassword(email, password)
+    _auth
+        .signInWithEmailAndPassword(email: email, password: password)
         .then((user) {
       print("Logado ${email}");
     }).catchError((onError) {
@@ -43,9 +46,11 @@ abstract class _AuthControllerBase with Store {
   }
 
   @action
-  register(email, password) {
-    FirebaseAuthWeb.instance
-        .createUserWithEmailAndPassword(email, password)
+  register(
+      {@required Map<String, dynamic> userData, @required String password}) {
+    _auth
+        .createUserWithEmailAndPassword(
+            email: userData["email"], password: password)
         .then((user) {})
         .catchError((onError) {});
   }

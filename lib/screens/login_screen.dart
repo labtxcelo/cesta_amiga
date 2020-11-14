@@ -1,4 +1,5 @@
 import 'package:cesta_amiga/controllers/auth_controller.dart';
+import 'package:cesta_amiga/screens/feed_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import '../componentes/text_field_componente.dart';
@@ -163,7 +164,8 @@ class _LoginScreen extends State<LoginScreen> {
               color: Colors.blueAccent),
           child: InkWell(
             onTap: () {
-              authController.signIn(txtEmailLogin.text, txtSenhaLogin.text);
+              //authController.signIn(txtEmailLogin.text, txtSenhaLogin.text);
+              //Navigator.push(context, FeedScreen());
             },
             child: Center(
               child: Text(
@@ -322,7 +324,7 @@ class _LoginScreen extends State<LoginScreen> {
           TextFieldComponente(
             title: "Complemento",
             inputType: TextInputType.text,
-            controller: txtDocumento,
+            controller: txtComplemento,
             maxLength: 12,
           ),
         ],
@@ -344,7 +346,7 @@ class _LoginScreen extends State<LoginScreen> {
                   onChanged: (type) {
                     loginController.changeTypePeople(TypePeopleState.PF);
                     // tipoPessoa = 'PF';
-                    // txtDocumentoCadastro.clear();
+                    txtDocumento.clear();
                   },
                   activeColor: Colors.blueAccent,
                   groupValue: loginController.typePeople,
@@ -365,7 +367,7 @@ class _LoginScreen extends State<LoginScreen> {
                   onChanged: (type) {
                     loginController.changeTypePeople(TypePeopleState.PJ);
                     // tipoPessoa = 'PJ';
-                    // txtDocumentoCadastro.clear();
+                    txtDocumento.clear();
                   },
                   groupValue: loginController.typePeople,
                 ),
