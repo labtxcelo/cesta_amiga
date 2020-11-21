@@ -1,7 +1,9 @@
 import 'package:cesta_amiga/controllers/auth_controller.dart';
+import 'package:cesta_amiga/library/base_widget/base_loading_screen.dart';
 import 'package:cesta_amiga/screens/feed_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:get_it/get_it.dart';
 import '../componentes/text_field_componente.dart';
 import '../controllers/login_controller.dart';
 
@@ -12,7 +14,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreen extends State<LoginScreen> {
   LoginController loginController = LoginController();
-  AuthController authController = AuthController();
+  final authController = GetIt.I<AuthController>();
 
   final txtEmailLogin = TextEditingController();
   final txtSenhaLogin = TextEditingController();
@@ -28,19 +30,22 @@ class _LoginScreen extends State<LoginScreen> {
   final txtLogradouro = TextEditingController();
   final txtNumero = TextEditingController();
   final txtComplemento = TextEditingController();
-  //final txtNumero = TextEditingController();
+  String tipoPessoa;
+  String tipoUsuario;
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    return Scaffold(
-      body: Container(
-          height: size.height,
-          width: size.width,
-          decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage("images/bg.png"), fit: BoxFit.cover)),
-          child: _buildBody(context)),
+    return BaseLoadingWidget(
+      body: Scaffold(
+        body: Container(
+            height: size.height,
+            width: size.width,
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage("images/bg.png"), fit: BoxFit.cover)),
+            child: _buildBody(context)),
+      ),
     );
   }
 
@@ -164,7 +169,7 @@ class _LoginScreen extends State<LoginScreen> {
               color: Colors.blueAccent),
           child: InkWell(
             onTap: () {
-              //authController.signIn(txtEmailLogin.text, txtSenhaLogin.text);
+              authController.cadastrarUsuario();
               //Navigator.push(context, FeedScreen());
             },
             child: Center(
