@@ -1,11 +1,14 @@
 import 'package:cesta_amiga/controllers/auth_controller.dart';
 import 'package:cesta_amiga/library/base_widget/base_loading_screen.dart';
 import 'package:cesta_amiga/screens/feed_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import '../componentes/text_field_componente.dart';
 import '../controllers/login_controller.dart';
+
+enum TipoModeEnum { DOADOR, RECEPTOR } //end enum
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -13,6 +16,9 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreen extends State<LoginScreen> {
+  TipoModeEnum _tipoUsuario = TipoModeEnum.DOADOR;
+  String _tipoEscolhido = "DOADOR";
+
   LoginController loginController = LoginController();
   final authController = GetIt.I<AuthController>();
 
@@ -158,32 +164,8 @@ class _LoginScreen extends State<LoginScreen> {
           controller: txtSenhaLogin,
           maxLength: 48,
         ),
-        SizedBox(
-          height: 16,
-        ),
-        Container(
-          height: 36,
-          width: double.infinity,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(24),
-              color: Colors.blueAccent),
-          child: InkWell(
-            onTap: () {
-              authController.cadastrarUsuario();
-              //Navigator.push(context, FeedScreen());
-            },
-            child: Center(
-              child: Text(
-                "Entrar",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold),
-                //textAlign: TextAlign.center,
-              ),
-            ),
-          ),
-        ),
+        SizedBox(height: 16),
+        this._buildButtom("Entrar"),
         SizedBox(height: 8),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           Text(
@@ -212,7 +194,7 @@ class _LoginScreen extends State<LoginScreen> {
 
   Widget _buildConteudoCadastro(BuildContext context) {
     return Container(
-      height: 400,
+      height: MediaQuery.of(context).size.height * 0.6,
       child: ListView(
         scrollDirection: Axis.vertical,
         children: [
@@ -224,27 +206,21 @@ class _LoginScreen extends State<LoginScreen> {
             controller: txtNome,
             maxLength: 48,
           ),
-          SizedBox(
-            height: 8,
-          ),
+          SizedBox(height: 8),
           TextFieldComponente(
             title: "E-mail",
             inputType: TextInputType.emailAddress,
             controller: txtEmail,
             maxLength: 48,
           ),
-          SizedBox(
-            height: 8,
-          ),
+          SizedBox(height: 8),
           TextFieldComponente(
             title: "Senha",
             isPassword: true,
             controller: txtSenha,
             maxLength: 48,
           ),
-          SizedBox(
-            height: 8,
-          ),
+          SizedBox(height: 8),
           TextFieldComponente(
             title: loginController.typePeople == TypePeopleState.PF
                 ? "CPF"
@@ -256,21 +232,7 @@ class _LoginScreen extends State<LoginScreen> {
             controller: txtDocumento,
             maxLength: 48,
           ),
-          // loginController.typePeople == TypePeopleState.PF
-          //     ? Container()
-          //     : Column(
-          //         children: [
-          //           SizedBox(height: 8),
-          //           TextFieldComponente(
-          //             title: "Razão Social",
-          //             inputType: TextInputType.number,
-          //             maxLength: 60,
-          //           ),
-          //         ],
-          //       ),
-          SizedBox(
-            height: 8,
-          ),
+          SizedBox(height: 8),
           TextFieldComponente(
             title: "CEP",
             inputType: TextInputType.number,
@@ -278,64 +240,79 @@ class _LoginScreen extends State<LoginScreen> {
             controller: txtCEP,
             maxLength: 48,
           ),
-          SizedBox(
-            height: 8,
-          ),
+          SizedBox(height: 8),
           TextFieldComponente(
             title: "Estado",
             inputType: TextInputType.text,
             controller: txtEstado,
             maxLength: 48,
           ),
-          SizedBox(
-            height: 8,
-          ),
+          SizedBox(height: 8),
           TextFieldComponente(
             title: "Cidade",
             inputType: TextInputType.text,
             controller: txtCidade,
             maxLength: 48,
           ),
-          SizedBox(
-            height: 8,
-          ),
+          SizedBox(height: 8),
           TextFieldComponente(
             title: "Bairro",
             inputType: TextInputType.text,
             controller: txtBairro,
             maxLength: 48,
           ),
-          SizedBox(
-            height: 8,
-          ),
+          SizedBox(height: 8),
           TextFieldComponente(
             title: "Logradouro",
             inputType: TextInputType.text,
             controller: txtLogradouro,
             maxLength: 48,
           ),
-          SizedBox(
-            height: 8,
-          ),
+          SizedBox(height: 8),
           TextFieldComponente(
             title: "Nº",
             inputType: TextInputType.text,
             controller: txtNumero,
             maxLength: 10,
           ),
-          SizedBox(
-            height: 8,
-          ),
+          SizedBox(height: 8),
           TextFieldComponente(
             title: "Complemento",
             inputType: TextInputType.text,
             controller: txtComplemento,
             maxLength: 12,
           ),
+          SizedBox(height: 8),
+          this._buildSeletor(),
+          SizedBox(height: 16),
+          this._buildButtom("Cadastrar"),
         ],
       ),
     );
   }
+
+  Widget _buildButtom(String text) {
+    return Container(
+      height: 36,
+      width: double.infinity,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(24), color: Colors.blueAccent),
+      child: InkWell(
+        onTap: () {
+          authController.cadastrarUsuario();
+          //Navigator.push(context, FeedScreen());
+        },
+        child: Center(
+          child: Text(
+            text,
+            style: TextStyle(
+                color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+            //textAlign: TextAlign.center,
+          ),
+        ),
+      ),
+    );
+  } //end buildButtom
 
   _buildRadios(BuildContext context) {
     return Observer(
@@ -389,4 +366,47 @@ class _LoginScreen extends State<LoginScreen> {
       },
     );
   }
-}
+
+  _buildSeletor() {
+    return CupertinoSlidingSegmentedControl(
+      padding: EdgeInsets.symmetric(vertical: 8),
+      children: {
+        0: this._buildSelectorItem(
+            this._tipoUsuario == TipoModeEnum.DOADOR, 'Doador'),
+        1: this._buildSelectorItem(
+            this._tipoUsuario == TipoModeEnum.RECEPTOR, 'Receptor'),
+      },
+      backgroundColor: Colors.white,
+      //thumbColor: Colors.pink,
+      onValueChanged: (index) {
+        setState(
+          () {
+            if (index == 0) {
+              this._tipoUsuario = TipoModeEnum.DOADOR;
+              this._tipoEscolhido = "Doador";
+            } else if (index == 1) {
+              this._tipoUsuario = TipoModeEnum.RECEPTOR;
+              this._tipoEscolhido = "Receptor";
+            }
+          },
+        );
+      },
+    );
+  }
+
+  _buildSelectorItem(bool selecionado, String name) {
+    return Padding(
+      padding: EdgeInsets.all(8),
+      child: Text(
+        name,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        style: TextStyle(
+          color: selecionado ? Colors.blueAccent : Colors.blueAccent,
+          fontWeight: selecionado ? FontWeight.bold : FontWeight.normal,
+          fontSize: 13,
+        ),
+      ),
+    );
+  }
+} //end class
