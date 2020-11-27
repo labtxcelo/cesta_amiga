@@ -101,7 +101,7 @@ class _LoginScreen extends State<LoginScreen> {
                                       ? "Bem vindo ao Cesta Amiga!"
                                       : "Cadastro",
                                   style: TextStyle(
-                                      color: Colors.blueAccent,
+                                      color: Colors.black,
                                       fontSize: 17,
                                       fontWeight: FontWeight.bold),
                                   textAlign: TextAlign.center,
@@ -140,9 +140,7 @@ class _LoginScreen extends State<LoginScreen> {
         child: Text(
           "Já sou cadastrado!",
           style: TextStyle(
-              color: Colors.blueAccent,
-              fontSize: 12,
-              fontWeight: FontWeight.bold),
+              color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold),
         ),
       ),
     );
@@ -192,7 +190,7 @@ class _LoginScreen extends State<LoginScreen> {
             child: Text(
               "Cadastre-se",
               style: TextStyle(
-                  color: Colors.blueAccent,
+                  color: Colors.black,
                   fontSize: 12,
                   fontWeight: FontWeight.bold),
             ),
@@ -306,7 +304,7 @@ class _LoginScreen extends State<LoginScreen> {
       height: 36,
       width: double.infinity,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(24), color: Colors.blueAccent),
+          borderRadius: BorderRadius.circular(24), color: Colors.black),
       child: InkWell(
         onTap: () {
           fn();
@@ -339,14 +337,14 @@ class _LoginScreen extends State<LoginScreen> {
                     // tipoPessoa = 'PF';
                     txtDocumento.clear();
                   },
-                  activeColor: Colors.blueAccent,
+                  activeColor: Colors.black,
                   groupValue: loginController.typePeople,
                 ),
                 Text("Pessoa Física",
                     style: TextStyle(
                         fontSize: 14,
                         color: loginController.typePeople == TypePeopleState.PF
-                            ? Colors.blueAccent
+                            ? Colors.black
                             : Colors.grey)),
               ],
             ),
@@ -354,7 +352,7 @@ class _LoginScreen extends State<LoginScreen> {
               children: <Widget>[
                 Radio(
                   value: TypePeopleState.PJ,
-                  activeColor: Colors.blueAccent,
+                  activeColor: Colors.black,
                   onChanged: (type) {
                     loginController.changeTypePeople(TypePeopleState.PJ);
                     // tipoPessoa = 'PJ';
@@ -366,7 +364,7 @@ class _LoginScreen extends State<LoginScreen> {
                     style: TextStyle(
                         fontSize: 14,
                         color: loginController.typePeople == TypePeopleState.PJ
-                            ? Colors.blueAccent
+                            ? Colors.black
                             : Colors.grey))
               ],
             )
@@ -411,7 +409,7 @@ class _LoginScreen extends State<LoginScreen> {
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
         style: TextStyle(
-          color: selecionado ? Colors.blueAccent : Colors.blueAccent,
+          color: selecionado ? Colors.black : Colors.black,
           fontWeight: selecionado ? FontWeight.bold : FontWeight.normal,
           fontSize: 13,
         ),

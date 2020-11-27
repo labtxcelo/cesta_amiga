@@ -10,11 +10,47 @@ class _FeedScreenState extends State<FeedScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: this._appBar(),
+      backgroundColor: ColorsUtil.fundo,
+      appBar: null,
       body: this._buildBody(),
     );
   } //end build
+
+  Widget cabecalho() {
+    return Container(
+      padding: EdgeInsets.all(12),
+      color: Colors.black,
+      width: MediaQuery.of(context).size.width,
+      child: Row(
+        //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Image.asset("images/icCesta.png", height: 24, width: 24),
+          SizedBox(width: 8),
+          Text(
+            "Olá Usuário, bem vindo!",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          //logout button
+          Expanded(
+            child: Container(),
+          ),
+          FlatButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Icon(
+              Icons.logout,
+              color: Colors.white,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
   AppBar _appBar() {
     return AppBar(
@@ -41,23 +77,31 @@ class _FeedScreenState extends State<FeedScreen> {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
+        this.cabecalho(),
         Expanded(
           child: ListView(
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   this.buildPedido(),
                   this.buildPedido(),
                 ],
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   this.buildPedido(),
                   this.buildPedido(),
                 ],
-              )
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  this.buildPedido(),
+                  this.buildPedido(),
+                ],
+              ),
             ],
           ),
         ),
@@ -74,13 +118,13 @@ class _FeedScreenState extends State<FeedScreen> {
       width: width,
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(24)),
+        borderRadius: BorderRadius.all(Radius.circular(12)),
         boxShadow: [
           BoxShadow(
             color: Colors.black,
-            spreadRadius: 1,
-            blurRadius: 5,
-            offset: Offset(8, 8), // changes position of shadow
+            spreadRadius: 0.5,
+            blurRadius: 8,
+            offset: Offset(2, 2), // changes position of shadow
           ),
         ],
       ),
@@ -93,12 +137,12 @@ class _FeedScreenState extends State<FeedScreen> {
             decoration: BoxDecoration(
               //radius
               borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(24),
-                bottomLeft: Radius.circular(24),
+                topLeft: Radius.circular(12),
+                bottomLeft: Radius.circular(12),
               ),
               //backGround
               image: DecorationImage(
-                image: AssetImage("images/food.jpg"),
+                image: AssetImage("images/bg.png"),
                 fit: BoxFit.cover,
               ),
             ),
@@ -107,12 +151,17 @@ class _FeedScreenState extends State<FeedScreen> {
           Expanded(
             child: Container(
               //color: Colors.green,
-              margin: EdgeInsets.all(8),
+              margin: EdgeInsets.fromLTRB(8, 8, 8, 0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   this.solicitante(),
                   SizedBox(height: 8),
+                  Container(
+                    height: 1,
+                    width: width,
+                    color: Colors.black.withOpacity(0.2),
+                  ),
                   this.itens(height * 0.5),
                 ],
               ),
@@ -127,19 +176,23 @@ class _FeedScreenState extends State<FeedScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          "Maria Conceição Silva",
-          style: TextStyle(
-            color: Colors.black87,
-            fontWeight: FontWeight.w600,
-            fontSize: 18,
+        Row(children: [
+          SizedBox(width: 8),
+          Text(
+            "Maria Conceição Silva",
+            style: TextStyle(
+              color: Colors.black,
+              letterSpacing: 0.3,
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+            ),
           ),
-        ),
+        ]),
         SizedBox(height: 8),
         Text(
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce at quam ut nisl dignissim hendrerit sed vel turpis. Aenean commodo sagittis lorem eu maximus. Vivamus vel gravida nisl, ac tincidunt enim.",
           style: TextStyle(
-            color: Colors.black.withOpacity(0.6),
+            color: Colors.black.withOpacity(0.8),
             fontWeight: FontWeight.w500,
             fontSize: 12,
           ),
@@ -149,38 +202,39 @@ class _FeedScreenState extends State<FeedScreen> {
   }
 
   Widget itens(double height) {
-    return Container(
-      height: height,
-      child: ListView(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Column(
-                children: [
-                  this.item("Carne"),
-                  this.item("Carne"),
-                  this.item("Carne"),
-                  this.item("Carne"),
-                  this.item("Carne"),
-                  this.item("Carne"),
-                ],
-              ),
-              SizedBox(width: 24),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  this.item("Carne"),
-                  this.item("Carne"),
-                  this.item("Carne"),
-                  this.item("Carne"),
-                  this.item("Carne"),
-                  this.item("Carne"),
-                ],
-              )
-            ],
-          ),
-        ],
+    return Expanded(
+      child: Container(
+        //height: height,
+        child: ListView(
+          padding: EdgeInsets.only(top: 8, left: 8, right: 8, bottom: 8),
+          children: [
+            Row(
+              children: [
+                Column(
+                  children: [
+                    this.item("Pão"),
+                    this.item("Café"),
+                    this.item("Óleo"),
+                    this.item("Arroz"),
+                    this.item("Carne"),
+                    this.item("Leite"),
+                  ],
+                ),
+                SizedBox(width: 24),
+                Column(
+                  children: [
+                    this.item("Açucar"),
+                    this.item("Feijão"),
+                    this.item("Banana"),
+                    this.item("Batata"),
+                    this.item("Tomate"),
+                    this.item("Farinha"),
+                  ],
+                )
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -188,8 +242,10 @@ class _FeedScreenState extends State<FeedScreen> {
   Widget item(String item) {
     int counter = 0;
     return Container(
-      padding: EdgeInsets.only(bottom: 8),
+      margin: EdgeInsets.only(bottom: 8),
+      //color: Colors.deepPurple,
       child: Row(
+        //PENDÊNCIA: AJUSTAR ROW, SPACREBETWEEN NÃO FUNCIONANDO.
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
@@ -200,14 +256,14 @@ class _FeedScreenState extends State<FeedScreen> {
               fontSize: 12,
             ),
           ),
-          SizedBox(width: 34),
+          //SizedBox(width: 34),
           Container(
             padding: EdgeInsets.symmetric(horizontal: 8),
             height: 20,
             width: 52,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(25),
-              color: Colors.black,
+              color: Colors.amber,
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -226,7 +282,7 @@ class _FeedScreenState extends State<FeedScreen> {
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 15,
-                      color: ColorsUtil.colorHex("F4F4F7"),
+                      color: Colors.black,
                     ),
                   ),
                 ),
@@ -235,7 +291,7 @@ class _FeedScreenState extends State<FeedScreen> {
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: 13,
-                    color: ColorsUtil.colorHex("F4F4F7"),
+                    color: Colors.black,
                   ),
                 ),
                 InkWell(
@@ -249,7 +305,7 @@ class _FeedScreenState extends State<FeedScreen> {
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 10,
-                      color: ColorsUtil.colorHex("F4F4F7"),
+                      color: Colors.black,
                     ),
                   ),
                 ),
