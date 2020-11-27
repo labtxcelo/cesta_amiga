@@ -1,4 +1,7 @@
 import 'package:cesta_amiga/library/utils/colors_util.dart';
+import 'package:cesta_amiga/screens/login_screen.dart';
+import 'package:cesta_amiga/screens/minhas_doacoes_screen.dart';
+import 'package:cesta_amiga/screens/perfil_screen.dart';
 import 'package:flutter/material.dart';
 
 class FeedScreen extends StatefulWidget {
@@ -10,7 +13,7 @@ class _FeedScreenState extends State<FeedScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorsUtil.fundo,
+      backgroundColor: ColorsUtil.fundoCinza,
       appBar: null,
       body: this._buildBody(),
     );
@@ -34,13 +37,51 @@ class _FeedScreenState extends State<FeedScreen> {
               fontWeight: FontWeight.bold,
             ),
           ),
-          //logout button
+
           Expanded(
             child: Container(),
           ),
+          //Minhas doações
           FlatButton(
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => MinhasDoacoes()),
+              );
+            },
+            child: Text(
+              "Minhas Doações",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.w800,
+              ),
+            ),
+          ),
+          //Meu perfil
+          FlatButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => PerfilScreen()),
+              );
+            },
+            child: Text(
+              "Meu perfil",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.w800,
+              ),
+            ),
+          ),
+          //logout button
+          FlatButton(
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => LoginScreen()),
+              );
             },
             child: Icon(
               Icons.logout,
@@ -50,27 +91,7 @@ class _FeedScreenState extends State<FeedScreen> {
         ],
       ),
     );
-  }
-
-  AppBar _appBar() {
-    return AppBar(
-      backgroundColor: Colors.black,
-      elevation: 0,
-      leading: null,
-      automaticallyImplyLeading: false,
-      actions: [
-        FlatButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: Icon(
-            Icons.logout,
-            color: Colors.white,
-          ),
-        ),
-      ],
-    );
-  } //end _appBar
+  } // end cabecalho
 
   Widget _buildBody() {
     return Column(
@@ -80,8 +101,13 @@ class _FeedScreenState extends State<FeedScreen> {
         this.cabecalho(),
         Expanded(
           child: ListView(
+            scrollDirection: Axis.horizontal,
             children: [
-              Row(
+              this.buildPedido(),
+              this.buildPedido(),
+              this.buildPedido(),
+              this.buildPedido(),
+              /* Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   this.buildPedido(),
@@ -101,7 +127,7 @@ class _FeedScreenState extends State<FeedScreen> {
                   this.buildPedido(),
                   this.buildPedido(),
                 ],
-              ),
+              ), */
             ],
           ),
         ),
@@ -110,7 +136,7 @@ class _FeedScreenState extends State<FeedScreen> {
   } //end _buildBody
 
   Widget buildPedido() {
-    double height = MediaQuery.of(context).size.height * 0.4;
+    double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width * 0.4;
     return Container(
       margin: EdgeInsets.all(16),
@@ -142,7 +168,7 @@ class _FeedScreenState extends State<FeedScreen> {
               ),
               //backGround
               image: DecorationImage(
-                image: AssetImage("images/bg.png"),
+                image: AssetImage("images/maca.jpg"),
                 fit: BoxFit.cover,
               ),
             ),
@@ -151,7 +177,7 @@ class _FeedScreenState extends State<FeedScreen> {
           Expanded(
             child: Container(
               //color: Colors.green,
-              margin: EdgeInsets.fromLTRB(8, 8, 8, 0),
+              margin: EdgeInsets.fromLTRB(8, 16, 8, 0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -163,6 +189,10 @@ class _FeedScreenState extends State<FeedScreen> {
                     color: Colors.black.withOpacity(0.2),
                   ),
                   this.itens(height * 0.5),
+                  Padding(
+                    padding: EdgeInsets.only(left: 8, bottom: 16, right: 8),
+                    child: this._buildButtom("Doar", () {}),
+                  )
                 ],
               ),
             ),
@@ -172,12 +202,33 @@ class _FeedScreenState extends State<FeedScreen> {
     );
   } //end buildPedido
 
+  Widget _buildButtom(String text, Function fn) {
+    return Container(
+      height: 36,
+      width: double.infinity,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(24), color: Colors.black),
+      child: InkWell(
+        onTap: () {
+          fn();
+        },
+        child: Center(
+          child: Text(
+            text,
+            style: TextStyle(
+                color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+            //textAlign: TextAlign.center,
+          ),
+        ),
+      ),
+    );
+  } //end buildButtom
+
   Widget solicitante() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(children: [
-          SizedBox(width: 8),
+        Row(mainAxisAlignment: MainAxisAlignment.start, children: [
           Text(
             "Maria Conceição Silva",
             style: TextStyle(
@@ -203,38 +254,36 @@ class _FeedScreenState extends State<FeedScreen> {
 
   Widget itens(double height) {
     return Expanded(
-      child: Container(
-        //height: height,
-        child: ListView(
-          padding: EdgeInsets.only(top: 8, left: 8, right: 8, bottom: 8),
-          children: [
-            Row(
-              children: [
-                Column(
-                  children: [
-                    this.item("Pão"),
-                    this.item("Café"),
-                    this.item("Óleo"),
-                    this.item("Arroz"),
-                    this.item("Carne"),
-                    this.item("Leite"),
-                  ],
-                ),
-                SizedBox(width: 38),
-                Column(
-                  children: [
-                    this.item("Açucar"),
-                    this.item("Feijão"),
-                    this.item("Banana"),
-                    this.item("Batata"),
-                    this.item("Tomate"),
-                    this.item("Farinha"),
-                  ],
-                )
-              ],
-            ),
-          ],
-        ),
+      child: ListView(
+        padding: EdgeInsets.only(top: 8, left: 8, right: 8, bottom: 8),
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                children: [
+                  this.item("Pão"),
+                  this.item("Café"),
+                  this.item("Óleo"),
+                  this.item("Arroz"),
+                  this.item("Carne"),
+                  this.item("Leite"),
+                ],
+              ),
+              //SizedBox(width: 38),
+              Column(
+                children: [
+                  this.item("Açucar"),
+                  this.item("Feijão"),
+                  this.item("Banana"),
+                  this.item("Batata"),
+                  this.item("Tomate"),
+                  this.item("Farinha"),
+                ],
+              )
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -263,7 +312,7 @@ class _FeedScreenState extends State<FeedScreen> {
             width: 52,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(25),
-              color: Colors.amber,
+              color: Colors.black,
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -282,7 +331,7 @@ class _FeedScreenState extends State<FeedScreen> {
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 15,
-                      color: Colors.black,
+                      color: Colors.white,
                     ),
                   ),
                 ),
@@ -291,7 +340,7 @@ class _FeedScreenState extends State<FeedScreen> {
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: 13,
-                    color: Colors.black,
+                    color: Colors.white,
                   ),
                 ),
                 InkWell(
@@ -305,7 +354,7 @@ class _FeedScreenState extends State<FeedScreen> {
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 10,
-                      color: Colors.black,
+                      color: Colors.white,
                     ),
                   ),
                 ),
