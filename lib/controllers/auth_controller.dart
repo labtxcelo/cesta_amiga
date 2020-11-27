@@ -1,4 +1,7 @@
+import 'package:cesta_amiga/library/base_store/base_stores.dart';
 import 'package:cesta_amiga/library/utils/requests.dart';
+import 'package:cesta_amiga/screens/home_screen.dart';
+import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 import 'package:http/http.dart' as http;
 
@@ -10,51 +13,37 @@ abstract class _AuthControllerBase with Store {
   @observable
   bool usuarioLogado = false;
 
-  timeStamp() async {
-    final response =
-        await http.get('http://armariosinteligentes.com/api/v3/timestamp');
-
-    if (response.statusCode == 200) {
-      // If server returns an OK response, parse the JSON.
-
-    } else {
-      // If that response was not OK, throw an error.
-      throw Exception('Failed to load post');
-    }
+  @action
+  deslogar() {
+    this.usuarioLogado = false;
   }
 
   @action
-  cadastrarUsuario() async {
-    var body = {
-      "id": 4,
-      "nome": "Test-Front",
-      "email": "test@test",
-      "senha": "test123",
-      "tipoPessoa": "PF",
-      "documento": "512.334.831-33",
-      "estado": "MG",
-      "cidade": "BH",
-      "logradouro": "Rua Salvia",
-      "numero": "201",
-      "complemento": "Casa",
-      "tipoUsuario": "doador"
-    };
-
-    var response = http.get('http://localhost:8080/usuario/listar-todos');
-
-    if (response != null) {
-      print('PASSOU: ${response.toString()}');
-    } else {
-      print('NAO PEGA BROOOO');
-    }
-
+  cadastrarUsuario(dynamic body) async {
     sendRequest
-        .request(HttpMethod.GET, 'http://localhost:8080/usuario/listar-todos')
+        .request(HttpMethod.POST, "usuario/cadastrar", body: body)
         .then((response) {
-      print(body);
       print(response);
+      login(body["email"], body["password"]);
     }).catchError((onError) {
       print('Algo deu errado!');
+      this.usuarioLogado = false;
+      print(onError);
+    });
+  }
+
+  @action
+  login(String email, String password) async {
+    var body = {"email": email, "password": password};
+
+    sendRequest
+        .request(HttpMethod.POST, "auth/logar", body: body)
+        .then((response) {
+      print(response);
+      this.usuarioLogado = true;
+    }).catchError((onError) {
+      print('Algo deu errado!');
+      this.usuarioLogado = false;
       print(onError);
     });
   }

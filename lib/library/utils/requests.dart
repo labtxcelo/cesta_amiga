@@ -89,7 +89,7 @@ class Requests {
 
   Future<dynamic> request(HttpMethod method, String endpoint,
       {Map headers, body, bool autoLoading = true}) async {
-    if (autoLoading) cestaLoading.startLoading();
+    //if (autoLoading) cestaLoading.startLoading();
 
     dynamic response;
 
