@@ -28,8 +28,30 @@ mixin _$AuthController on _AuthControllerBase, Store {
       AsyncAction('_AuthControllerBase.cadastrarUsuario');
 
   @override
-  Future cadastrarUsuario() {
-    return _$cadastrarUsuarioAsyncAction.run(() => super.cadastrarUsuario());
+  Future cadastrarUsuario(dynamic body) {
+    return _$cadastrarUsuarioAsyncAction
+        .run(() => super.cadastrarUsuario(body));
+  }
+
+  final _$loginAsyncAction = AsyncAction('_AuthControllerBase.login');
+
+  @override
+  Future login(String email, String password) {
+    return _$loginAsyncAction.run(() => super.login(email, password));
+  }
+
+  final _$_AuthControllerBaseActionController =
+      ActionController(name: '_AuthControllerBase');
+
+  @override
+  dynamic deslogar() {
+    final _$actionInfo = _$_AuthControllerBaseActionController.startAction(
+        name: '_AuthControllerBase.deslogar');
+    try {
+      return super.deslogar();
+    } finally {
+      _$_AuthControllerBaseActionController.endAction(_$actionInfo);
+    }
   }
 
   @override

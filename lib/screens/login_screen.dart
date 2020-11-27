@@ -165,14 +165,20 @@ class _LoginScreen extends State<LoginScreen> {
           maxLength: 48,
         ),
         SizedBox(height: 16),
-        this._buildButtom(
-          "Entrar",
-          () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => HomeScreen()),
-            );
-          },
+        Observer(
+          builder: (_) => this._buildButtom(
+            "Entrar",
+            () {
+              authController.login(txtEmailLogin.text, txtSenhaLogin.text);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => HomeScreen()),
+              );
+              // if (authController.usuarioLogado == true) {
+
+              // }
+            },
+          ),
         ),
         SizedBox(height: 8),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -293,7 +299,30 @@ class _LoginScreen extends State<LoginScreen> {
           SizedBox(height: 8),
           this._buildSeletor(),
           SizedBox(height: 16),
-          this._buildButtom("Cadastrar", () {}),
+          Observer(
+              builder: (_) => this._buildButtom("Cadastrar", () {
+                    var body = {
+                      "nome": txtNome.text,
+                      "email": txtEmail.text,
+                      "password": txtSenha.text,
+                      "tipoPessoa": tipoPessoa,
+                      "documento": txtDocumento.text,
+                      "estado": txtEstado.text,
+                      "cidade": txtCidade.text,
+                      "logradouro": txtLogradouro.text,
+                      "numero": txtNumero.text,
+                      "complemento": txtComplemento.text,
+                      "tipoUsuario": _tipoEscolhido
+                    };
+                    authController.cadastrarUsuario(body);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => HomeScreen()),
+                    );
+                    // if (authController.usuarioLogado == true) {
+
+                    //   );
+                  })),
         ],
       ),
     );
@@ -334,7 +363,7 @@ class _LoginScreen extends State<LoginScreen> {
                   value: TypePeopleState.PF,
                   onChanged: (type) {
                     loginController.changeTypePeople(TypePeopleState.PF);
-                    // tipoPessoa = 'PF';
+                    tipoPessoa = 'PF';
                     txtDocumento.clear();
                   },
                   activeColor: Colors.black,
@@ -355,7 +384,7 @@ class _LoginScreen extends State<LoginScreen> {
                   activeColor: Colors.black,
                   onChanged: (type) {
                     loginController.changeTypePeople(TypePeopleState.PJ);
-                    // tipoPessoa = 'PJ';
+                    tipoPessoa = 'PJ';
                     txtDocumento.clear();
                   },
                   groupValue: loginController.typePeople,
