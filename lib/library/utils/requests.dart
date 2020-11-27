@@ -126,7 +126,7 @@ class Requests {
             'Não foi possível concluir sua chamada! Tente novamente mais tarde.');
       }
     }
-    if (autoLoading) cestaLoading.stopLoading();
+    //if (autoLoading) cestaLoading.stopLoading();
 
     return response;
   }
@@ -165,7 +165,7 @@ class Requests {
     Response response = await _dio.post(
       endpoint,
       data: body,
-      options: await this._getCustomConfig(headers),
+      //options: await this._getCustomConfig(headers),
     );
 
     return this._generateResponse(response);

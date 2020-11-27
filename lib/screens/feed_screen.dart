@@ -220,7 +220,7 @@ class _FeedScreenState extends State<FeedScreen> {
                     this.item("Leite"),
                   ],
                 ),
-                SizedBox(width: 24),
+                SizedBox(width: 38),
                 Column(
                   children: [
                     this.item("Açucar"),
@@ -242,10 +242,10 @@ class _FeedScreenState extends State<FeedScreen> {
   Widget item(String item) {
     int counter = 0;
     return Container(
+      width: 120,
       margin: EdgeInsets.only(bottom: 8),
       //color: Colors.deepPurple,
       child: Row(
-        //PENDÊNCIA: AJUSTAR ROW, SPACREBETWEEN NÃO FUNCIONANDO.
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
