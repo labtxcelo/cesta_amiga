@@ -1,12 +1,14 @@
 import 'package:cesta_amiga/controllers/auth_controller.dart';
 import 'package:cesta_amiga/library/base_widget/base_loading_screen.dart';
-import 'package:cesta_amiga/screens/feed_screen.dart';
+import 'package:cesta_amiga/screens/home_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import '../componentes/text_field_componente.dart';
 import '../controllers/login_controller.dart';
+import '../library/base_store/base_stores.dart';
+import 'home_screen.dart';
 
 enum TipoModeEnum { DOADOR, RECEPTOR } //end enum
 
@@ -165,7 +167,15 @@ class _LoginScreen extends State<LoginScreen> {
           maxLength: 48,
         ),
         SizedBox(height: 16),
-        this._buildButtom("Entrar"),
+        this._buildButtom(
+          "Entrar",
+          () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => HomeScreen()),
+            );
+          },
+        ),
         SizedBox(height: 8),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           Text(
@@ -285,13 +295,13 @@ class _LoginScreen extends State<LoginScreen> {
           SizedBox(height: 8),
           this._buildSeletor(),
           SizedBox(height: 16),
-          this._buildButtom("Cadastrar"),
+          this._buildButtom("Cadastrar", () {}),
         ],
       ),
     );
   }
 
-  Widget _buildButtom(String text) {
+  Widget _buildButtom(String text, Function fn) {
     return Container(
       height: 36,
       width: double.infinity,
@@ -299,8 +309,7 @@ class _LoginScreen extends State<LoginScreen> {
           borderRadius: BorderRadius.circular(24), color: Colors.blueAccent),
       child: InkWell(
         onTap: () {
-          authController.cadastrarUsuario();
-          //Navigator.push(context, FeedScreen());
+          fn();
         },
         child: Center(
           child: Text(
