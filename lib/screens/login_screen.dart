@@ -38,7 +38,7 @@ class _LoginScreen extends State<LoginScreen> {
   final txtLogradouro = TextEditingController();
   final txtNumero = TextEditingController();
   final txtComplemento = TextEditingController();
-  String tipoPessoa;
+  String tipoPessoa = "PF";
   String tipoUsuario;
 
   @override

@@ -1,8 +1,11 @@
+import 'package:cesta_amiga/controllers/auth_controller.dart';
 import 'package:cesta_amiga/library/utils/colors_util.dart';
 import 'package:cesta_amiga/screens/login_screen.dart';
 import 'package:cesta_amiga/screens/minhas_doacoes_screen.dart';
 import 'package:cesta_amiga/screens/perfil_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:get_it/get_it.dart';
 
 class FeedScreen extends StatefulWidget {
   @override
@@ -10,6 +13,8 @@ class FeedScreen extends StatefulWidget {
 }
 
 class _FeedScreenState extends State<FeedScreen> {
+  final authController = GetIt.I<AuthController>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,12 +34,16 @@ class _FeedScreenState extends State<FeedScreen> {
         children: [
           Image.asset("images/icCesta.png", height: 24, width: 24),
           SizedBox(width: 8),
-          Text(
-            "Olá Usuário, bem vindo!",
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
+          Observer(
+            builder: (_) => Text(
+              authController.nomeUsuario != null
+                  ? "Olá ${authController.nomeUsuario}, bem vindo!"
+                  : "Olá Usuário, bem vindo!",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
 

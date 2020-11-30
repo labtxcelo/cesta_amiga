@@ -24,6 +24,36 @@ mixin _$AuthController on _AuthControllerBase, Store {
     });
   }
 
+  final _$nomeUsuarioAtom = Atom(name: '_AuthControllerBase.nomeUsuario');
+
+  @override
+  String get nomeUsuario {
+    _$nomeUsuarioAtom.reportRead();
+    return super.nomeUsuario;
+  }
+
+  @override
+  set nomeUsuario(String value) {
+    _$nomeUsuarioAtom.reportWrite(value, super.nomeUsuario, () {
+      super.nomeUsuario = value;
+    });
+  }
+
+  final _$userAtom = Atom(name: '_AuthControllerBase.user');
+
+  @override
+  UserAuth get user {
+    _$userAtom.reportRead();
+    return super.user;
+  }
+
+  @override
+  set user(UserAuth value) {
+    _$userAtom.reportWrite(value, super.user, () {
+      super.user = value;
+    });
+  }
+
   final _$cadastrarUsuarioAsyncAction =
       AsyncAction('_AuthControllerBase.cadastrarUsuario');
 
@@ -57,7 +87,9 @@ mixin _$AuthController on _AuthControllerBase, Store {
   @override
   String toString() {
     return '''
-usuarioLogado: ${usuarioLogado}
+usuarioLogado: ${usuarioLogado},
+nomeUsuario: ${nomeUsuario},
+user: ${user}
     ''';
   }
 }

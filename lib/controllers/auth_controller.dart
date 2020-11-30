@@ -1,5 +1,6 @@
 import 'package:cesta_amiga/library/base_store/base_stores.dart';
 import 'package:cesta_amiga/library/utils/requests.dart';
+import 'package:cesta_amiga/models/UserAuth.dart';
 import 'package:cesta_amiga/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
@@ -12,6 +13,12 @@ class AuthController = _AuthControllerBase with _$AuthController;
 abstract class _AuthControllerBase with Store {
   @observable
   bool usuarioLogado = false;
+
+  @observable
+  String nomeUsuario;
+
+  @observable
+  UserAuth user;
 
   @action
   deslogar() {
@@ -41,6 +48,8 @@ abstract class _AuthControllerBase with Store {
         .then((response) {
       print(response);
       this.usuarioLogado = true;
+      this.nomeUsuario = response["nome"];
+      this.user = UserAuth.map(response);
     }).catchError((onError) {
       print('Algo deu errado!');
       this.usuarioLogado = false;
