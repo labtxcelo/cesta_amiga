@@ -1,3 +1,4 @@
+import 'package:cesta_amiga/screens/solicitante.dart';
 import 'package:flutter/material.dart';
 
 import 'feed_screen.dart';
