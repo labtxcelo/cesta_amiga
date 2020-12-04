@@ -17,9 +17,22 @@ class _PerfilScreenState extends State<PerfilScreen> {
 
   @override
   Widget build(BuildContext context) {
+    /* Widget _buildBodyBack() => Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color.fromARGB(255, 4, 125, 141),
+                Color.fromARGB(255, 0, 0, 0),
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+        ); */
     return Scaffold(
       backgroundColor: ColorsUtil.fundoCinza,
       appBar: null,
+      //body: Stack(children: [_buildBodyBack(), this._buildBody()]),
       body: this._buildBody(),
     );
   }
@@ -121,16 +134,23 @@ class _PerfilScreenState extends State<PerfilScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              this.infoField("Nome", "Bill \& Melinda Gates Foundation"),
+              authController.user.usuario.nome != null
+                  ? this.infoField("Nome", authController.user.usuario.nome)
+                  : this.infoField("Nome", "Não encontrado"),
               SizedBox(width: 50),
-              this.infoField("E-mail", "contato@bmgfoundation.com"),
+              authController.user.usuario.email != null
+                  ? this.infoField("Email", authController.user.usuario.email)
+                  : this.infoField("Email", "Não encontrado"),
             ],
           ),
           SizedBox(height: 16),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              this.infoField("CNPJ", "99.999.999/9999-99"),
+              authController.user.usuario.nome != null
+                  ? this.infoField(
+                      "Documento", authController.user.usuario.documento)
+                  : this.infoField("Documento", "Não encontrado"),
               SizedBox(width: 50),
               this.infoField("CEP", "30140-100"),
             ],
@@ -139,27 +159,41 @@ class _PerfilScreenState extends State<PerfilScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              this.infoField("Estado", "Minas Gerais"),
+              authController.user.usuario.nome != null
+                  ? this.infoField("Estado", authController.user.usuario.estado)
+                  : this.infoField("Estado", "Não encontrado"),
               SizedBox(width: 50),
-              this.infoField("Bairro", "Funcionários"),
+              authController.user.usuario.nome != null
+                  ? this.infoField("Bairro", authController.user.usuario.bairro)
+                  : this.infoField("Bairro", "Não encontrado"),
             ],
           ),
           SizedBox(height: 16),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              this.infoField("Estado", "Minas Gerais"),
+              authController.user.usuario.nome != null
+                  ? this.infoField("Cidade", authController.user.usuario.cidade)
+                  : this.infoField("Cidade", "Não encontrado"),
               SizedBox(width: 50),
-              this.infoField("Bairro", "Funcionários"),
+              authController.user.usuario.nome != null
+                  ? this.infoField(
+                      "Logradouro", authController.user.usuario.logradouro)
+                  : this.infoField("Logradouro", "Não encontrado"),
             ],
           ),
           SizedBox(height: 16),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              this.infoField("Complento", "Dev Tower"),
+              authController.user.usuario.nome != null
+                  ? this.infoField(
+                      "Complemento", authController.user.usuario.complemento)
+                  : this.infoField("Complemento", "Não encontrado"),
               SizedBox(width: 50),
-              this.infoField("Número", "2000"),
+              authController.user.usuario.nome != null
+                  ? this.infoField("Número", authController.user.usuario.numero)
+                  : this.infoField("Número", "Não encontrado"),
             ],
           ),
         ],

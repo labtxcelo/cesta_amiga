@@ -1,5 +1,6 @@
 import 'package:cesta_amiga/library/base_store/loading_store.dart';
 import 'package:cesta_amiga/library/base_store/navigator_store.dart';
+import 'package:cesta_amiga/screens/login_screen.dart';
 import 'package:cesta_amiga/screens/solicitante_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -29,8 +30,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Cesta Amiga',
-      //home: LoginScreen(),
-      home: SolicitanteScreen(),
+      home: LoginScreen(),
+      //home: SolicitanteScreen(),
     );
   }
 }
