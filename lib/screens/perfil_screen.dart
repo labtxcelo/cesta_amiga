@@ -152,7 +152,9 @@ class _PerfilScreenState extends State<PerfilScreen> {
                       "Documento", authController.user.usuario.documento)
                   : this.infoField("Documento", "Não encontrado"),
               SizedBox(width: 50),
-              this.infoField("CEP", "30140-100"),
+              authController.user.usuario.cep != null
+                  ? this.infoField("Cep", authController.user.usuario.cep)
+                  : this.infoField("Cep", "Não encontrado"),
             ],
           ),
           SizedBox(height: 16),
