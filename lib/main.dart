@@ -1,13 +1,9 @@
 import 'package:cesta_amiga/library/base_store/loading_store.dart';
 import 'package:cesta_amiga/library/base_store/navigator_store.dart';
-import 'package:cesta_amiga/screens/home_screen.dart';
-import 'package:cesta_amiga/screens/login_screen.dart';
-import 'package:cesta_amiga/screens/perfil_screen.dart';
-import 'package:cesta_amiga/screens/solicitante.dart';
+import 'package:cesta_amiga/screens/solicitante_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'controllers/auth_controller.dart';
-import 'screens/login_screen.dart';
 
 void main() {
   _registerStores();
@@ -33,8 +29,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Cesta Amiga',
-      home: LoginScreen(),
-      //home: Solicitante(),
+      //home: LoginScreen(),
+      home: SolicitanteScreen(),
     );
   }
 }

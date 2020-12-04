@@ -11,12 +11,12 @@ import 'package:get_it/get_it.dart';
 import 'feed_screen.dart';
 import 'login_screen.dart';
 
-class Solicitante extends StatefulWidget {
+class SolicitanteScreen extends StatefulWidget {
   @override
-  _SolicitanteState createState() => _SolicitanteState();
+  _SolicitanteScreenState createState() => _SolicitanteScreenState();
 }
 
-class _SolicitanteState extends State<Solicitante> {
+class _SolicitanteScreenState extends State<SolicitanteScreen> {
   final authController = GetIt.I<AuthController>();
   final txtDesc = TextEditingController();
   int option = 0;
@@ -76,17 +76,24 @@ class _SolicitanteState extends State<Solicitante> {
           padding: EdgeInsets.all(48),
           width: MediaQuery.of(context).size.width * 0.5,
           height: MediaQuery.of(context).size.height,
-          color: ColorsUtil.colorHex("135BC3"),
-          child: Center(
+          //color: ColorsUtil.colorHex("135BC3"),
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("images/caridade.jpg"),
+              fit: BoxFit.cover,
+            ),
+          ),
+          /* child: Center(
             child: Text(
               this.frase,
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 18,
+                letterSpacing: 0.3,
+                fontSize: 16,
                 fontWeight: FontWeight.bold,
               ),
             ),
-          ),
+          ), */
         ),
         Container(
           width: MediaQuery.of(context).size.width * 0.5,
@@ -126,13 +133,13 @@ class _SolicitanteState extends State<Solicitante> {
           //Solicitações
           FlatButton(
             onPressed: () {
-              Navigator.push(
+              /* Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => FeedScreen()),
-              );
+              ); */
             },
             child: Text(
-              "Feed",
+              "Minhas solicitações",
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 16,
@@ -177,16 +184,43 @@ class _SolicitanteState extends State<Solicitante> {
 
   Widget _buildConteudoCadastro(BuildContext context) {
     return Container(
-      padding: EdgeInsets.fromLTRB(32, 100, 32, 32),
-      // height: MediaQuery.of(context).size.height * 0.6,
+      padding: EdgeInsets.fromLTRB(32, 70, 32, 32),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            "Maria Conceicao Silva",
-            style: TextStyle(
+          FlatButton.icon(
+            padding: EdgeInsets.only(left: 0),
+            onPressed: () {
+              setState(() {
+                this.option = 0;
+              });
+            },
+            icon: Icon(
+              Icons.arrow_back_ios,
               color: Colors.black,
-              fontWeight: FontWeight.bold,
-              fontSize: 22,
+            ),
+            label: Text(
+              "Seleção",
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+          SizedBox(height: 42),
+          Container(
+            alignment: Alignment.center,
+            child: Text(
+              authController.nomeUsuario != null
+                  ? "${authController.nomeUsuario}"
+                  : "Usuário",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+                fontSize: 22,
+              ),
             ),
           ),
           SizedBox(height: 42),
@@ -195,9 +229,9 @@ class _SolicitanteState extends State<Solicitante> {
             placeholder: "Fale mais sobre sua necessidade",
             inputType: TextInputType.text,
             controller: txtDesc,
-            maxLength: 48,
+            maxLength: 500,
           ),
-          SizedBox(height: 42),
+          //SizedBox(height: 22),
           this.itens(),
           this._buildButtom("Solicitar", () {}),
         ],
@@ -206,11 +240,10 @@ class _SolicitanteState extends State<Solicitante> {
   } //end buildConteudoCadastro
 
   Widget itens() {
-    return Container(
+    return Expanded(
       //color: Colors.black,
-      height: MediaQuery.of(context).size.height * 0.4,
       child: ListView(
-        padding: EdgeInsets.only(top: 0, left: 8, right: 8, bottom: 0),
+        padding: EdgeInsets.only(top: 22, left: 20, right: 20, bottom: 12),
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -354,6 +387,7 @@ class _SolicitanteState extends State<Solicitante> {
         height: 180,
         width: 300,
         decoration: BoxDecoration(
+          border: Border.all(color: Colors.black, width: 2),
           color: Colors.white,
           boxShadow: [
             BoxShadow(
