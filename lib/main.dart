@@ -31,7 +31,6 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Cesta Amiga',
       home: LoginScreen(),
-      //home: SolicitanteScreen(),
     );
   }
 }

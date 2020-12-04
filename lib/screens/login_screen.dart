@@ -169,14 +169,8 @@ class _LoginScreen extends State<LoginScreen> {
           builder: (_) => this._buildButtom(
             "Entrar",
             () {
-              authController.login(txtEmailLogin.text, txtSenhaLogin.text);
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => HomeScreen()),
-              );
-              // if (authController.usuarioLogado == true) {
-
-              // }
+              authController.login(
+                  txtEmailLogin.text, txtSenhaLogin.text, context);
             },
           ),
         ),
@@ -307,21 +301,16 @@ class _LoginScreen extends State<LoginScreen> {
                       "password": txtSenha.text,
                       "tipoPessoa": tipoPessoa,
                       "documento": txtDocumento.text,
+                      "cep": txtCEP.text,
                       "estado": txtEstado.text,
                       "cidade": txtCidade.text,
+                      "bairro": txtBairro.text,
                       "logradouro": txtLogradouro.text,
                       "numero": txtNumero.text,
                       "complemento": txtComplemento.text,
                       "tipoUsuario": _tipoEscolhido
                     };
-                    authController.cadastrarUsuario(body);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => HomeScreen()),
-                    );
-                    // if (authController.usuarioLogado == true) {
-
-                    //   );
+                    authController.cadastrarUsuario(body, context);
                   })),
         ],
       ),

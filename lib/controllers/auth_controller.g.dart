@@ -58,16 +58,16 @@ mixin _$AuthController on _AuthControllerBase, Store {
       AsyncAction('_AuthControllerBase.cadastrarUsuario');
 
   @override
-  Future cadastrarUsuario(dynamic body) {
+  Future cadastrarUsuario(dynamic body, BuildContext context) {
     return _$cadastrarUsuarioAsyncAction
-        .run(() => super.cadastrarUsuario(body));
+        .run(() => super.cadastrarUsuario(body, context));
   }
 
   final _$loginAsyncAction = AsyncAction('_AuthControllerBase.login');
 
   @override
-  Future login(String email, String password) {
-    return _$loginAsyncAction.run(() => super.login(email, password));
+  Future login(String email, String password, BuildContext context) {
+    return _$loginAsyncAction.run(() => super.login(email, password, context));
   }
 
   final _$_AuthControllerBaseActionController =

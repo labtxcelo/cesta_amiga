@@ -147,7 +147,7 @@ class _PerfilScreenState extends State<PerfilScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              authController.user.usuario.nome != null
+              authController.user.usuario.documento != null
                   ? this.infoField(
                       "Documento", authController.user.usuario.documento)
                   : this.infoField("Documento", "Não encontrado"),
@@ -159,11 +159,11 @@ class _PerfilScreenState extends State<PerfilScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              authController.user.usuario.nome != null
+              authController.user.usuario.estado != null
                   ? this.infoField("Estado", authController.user.usuario.estado)
                   : this.infoField("Estado", "Não encontrado"),
               SizedBox(width: 50),
-              authController.user.usuario.nome != null
+              authController.user.usuario.bairro != null
                   ? this.infoField("Bairro", authController.user.usuario.bairro)
                   : this.infoField("Bairro", "Não encontrado"),
             ],
@@ -172,11 +172,11 @@ class _PerfilScreenState extends State<PerfilScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              authController.user.usuario.nome != null
+              authController.user.usuario.cidade != null
                   ? this.infoField("Cidade", authController.user.usuario.cidade)
                   : this.infoField("Cidade", "Não encontrado"),
               SizedBox(width: 50),
-              authController.user.usuario.nome != null
+              authController.user.usuario.logradouro != null
                   ? this.infoField(
                       "Logradouro", authController.user.usuario.logradouro)
                   : this.infoField("Logradouro", "Não encontrado"),
@@ -186,12 +186,12 @@ class _PerfilScreenState extends State<PerfilScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              authController.user.usuario.nome != null
+              authController.user.usuario.complemento != null
                   ? this.infoField(
                       "Complemento", authController.user.usuario.complemento)
                   : this.infoField("Complemento", "Não encontrado"),
               SizedBox(width: 50),
-              authController.user.usuario.nome != null
+              authController.user.usuario.numero != null
                   ? this.infoField("Número", authController.user.usuario.numero)
                   : this.infoField("Número", "Não encontrado"),
             ],

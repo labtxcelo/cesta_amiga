@@ -1,15 +1,14 @@
 import 'dart:ui';
-
 import 'package:cesta_amiga/componentes/text_field_componente.dart';
 import 'package:cesta_amiga/controllers/auth_controller.dart';
+import 'package:cesta_amiga/controllers/solicitante_controller.dart';
 import 'package:cesta_amiga/library/utils/colors_util.dart';
+import 'package:cesta_amiga/models/Item.dart';
+import 'package:cesta_amiga/screens/login_screen.dart';
 import 'package:cesta_amiga/screens/perfil_screen.dart';
 import "package:flutter/material.dart";
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
-
-import 'feed_screen.dart';
-import 'login_screen.dart';
 
 class SolicitanteScreen extends StatefulWidget {
   @override
@@ -18,13 +17,14 @@ class SolicitanteScreen extends StatefulWidget {
 
 class _SolicitanteScreenState extends State<SolicitanteScreen> {
   final authController = GetIt.I<AuthController>();
+  SolicitanteController solicitanteController = SolicitanteController();
   final txtDesc = TextEditingController();
   int option = 0;
-  String frase =
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean consectetur bibendum placerat. Praesent non tortor diam. Donec egestas, urna et hendrerit maximus, purus tortor malesuada nisi, in convallis libero dolor ut nisl. Cras blandit non metus sit amet sollicitudin. Pellentesque malesuada luctus ipsum, in mollis nibh mattis a. Nam ullamcorper aliquet scelerisque. Donec a ex ac elit auctor viverra. Aliquam sagittis finibus nulla ac aliquam. Praesent suscipit urna vitae lorem feugiat venenatis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Suspendisse eget rutrum nibh.";
+  // String frase = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean consectetur bibendum placerat. Praesent non tortor diam. Donec egestas, urna et hendrerit maximus, purus tortor malesuada nisi, in convallis libero dolor ut nisl. Cras blandit non metus sit amet sollicitudin. Pellentesque malesuada luctus ipsum, in mollis nibh mattis a. Nam ullamcorper aliquet scelerisque. Donec a ex ac elit auctor viverra. Aliquam sagittis finibus nulla ac aliquam. Praesent suscipit urna vitae lorem feugiat venenatis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Suspendisse eget rutrum nibh.";
 
   @override
   Widget build(BuildContext context) {
+    solicitanteController.buscarItens();
     return Scaffold(
       backgroundColor: ColorsUtil.fundoCinza,
       appBar: null,
@@ -244,39 +244,15 @@ class _SolicitanteScreenState extends State<SolicitanteScreen> {
       //color: Colors.black,
       child: ListView(
         padding: EdgeInsets.only(top: 22, left: 20, right: 20, bottom: 12),
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                children: [
-                  this.item("Pão"),
-                  this.item("Café"),
-                  this.item("Óleo"),
-                  this.item("Arroz"),
-                  this.item("Carne"),
-                  this.item("Leite"),
-                ],
-              ),
-              //SizedBox(width: 38),
-              Column(
-                children: [
-                  this.item("Açucar"),
-                  this.item("Feijão"),
-                  this.item("Banana"),
-                  this.item("Batata"),
-                  this.item("Tomate"),
-                  this.item("Farinha"),
-                ],
-              )
-            ],
-          ),
-        ],
+        key: Key("SolicitanteScreen"),
+        children: solicitanteController.itens.map((item) {
+          return this.item(item);
+        }).toList(),
       ),
     );
   }
 
-  Widget item(String item) {
+  Widget item(Item item) {
     int counter = 0;
     return Container(
       width: 120,
@@ -285,13 +261,26 @@ class _SolicitanteScreenState extends State<SolicitanteScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            item,
-            style: TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.w600,
-              fontSize: 12,
-            ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                item.nome,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 12,
+                ),
+              ),
+              Text(
+                item.peso != null ? item.peso : item.litro,
+                style: TextStyle(
+                  color: Colors.black.withOpacity(0.6),
+                  fontWeight: FontWeight.w600,
+                  fontSize: 10,
+                ),
+              ),
+            ],
           ),
           Container(
             padding: EdgeInsets.symmetric(horizontal: 8),

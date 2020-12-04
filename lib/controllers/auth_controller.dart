@@ -26,12 +26,13 @@ abstract class _AuthControllerBase with Store {
   }
 
   @action
-  cadastrarUsuario(dynamic body) async {
+  cadastrarUsuario(dynamic body, BuildContext context) async {
     sendRequest
         .request(HttpMethod.POST, "usuario/cadastrar", body: body)
         .then((response) {
       print(response);
-      login(body["email"], body["password"]);
+      this.usuarioLogado = true;
+      login(body["email"], body["password"], context);
     }).catchError((onError) {
       print('Algo deu errado!');
       this.usuarioLogado = false;
@@ -40,9 +41,8 @@ abstract class _AuthControllerBase with Store {
   }
 
   @action
-  login(String email, String password) async {
+  login(String email, String password, BuildContext context) async {
     var body = {"email": email, "password": password};
-
     sendRequest
         .request(HttpMethod.POST, "auth/logar", body: body)
         .then((response) {
@@ -50,6 +50,10 @@ abstract class _AuthControllerBase with Store {
       this.usuarioLogado = true;
       this.nomeUsuario = response["nome"];
       this.user = UserAuth.map(response);
+      Navigator.push(
+        (context),
+        MaterialPageRoute(builder: (context) => HomeScreen()),
+      );
     }).catchError((onError) {
       print('Algo deu errado!');
       this.usuarioLogado = false;

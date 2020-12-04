@@ -22,6 +22,7 @@ class UserAuth {
 
   Map<String, dynamic> toMap() {
     var map = new Map<String, dynamic>();
+
     map['id'] = this.id;
     if (this.usuario != null) {
       map['usuario'] = this.usuario.toMap();

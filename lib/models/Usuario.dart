@@ -5,6 +5,7 @@ class Usuario {
   String password;
   String tipoPessoa;
   String documento;
+  String cep;
   String estado;
   String cidade;
   String bairro;
@@ -22,6 +23,7 @@ class Usuario {
     this.password = json["password"];
     this.tipoPessoa = json["tipoPessoa"];
     this.documento = json["documento"];
+    this.cep = json["cep"];
     this.estado = json["estado"];
     this.cidade = json["cidade"];
     this.bairro = json["Bairro"];
@@ -38,6 +40,7 @@ class Usuario {
     map['password'] = this.password;
     map['tipoPessoa'] = this.tipoPessoa;
     map['documento'] = this.documento;
+    map["cep"] = this.cep;
     map['estado'] = this.estado;
     map['cidade'] = this.cidade;
     map['logradouro'] = this.logradouro;
