@@ -1,8 +1,10 @@
 import 'package:cesta_amiga/controllers/auth_controller.dart';
+import 'package:cesta_amiga/controllers/solicitante_controller.dart';
 import 'package:cesta_amiga/library/utils/colors_util.dart';
 import 'package:cesta_amiga/screens/login_screen.dart';
 import 'package:cesta_amiga/screens/minhas_doacoes_screen.dart';
 import 'package:cesta_amiga/screens/perfil_screen.dart';
+import 'package:cesta_amiga/screens/solicitante_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
@@ -14,9 +16,11 @@ class FeedScreen extends StatefulWidget {
 
 class _FeedScreenState extends State<FeedScreen> {
   final authController = GetIt.I<AuthController>();
+  SolicitanteController solicitanteController = SolicitanteController();
 
   @override
   Widget build(BuildContext context) {
+    solicitanteController.buscarNecessidades();
     return Scaffold(
       backgroundColor: ColorsUtil.fundoCinza,
       appBar: null,
