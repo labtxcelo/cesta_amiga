@@ -3,7 +3,7 @@ import 'package:cesta_amiga/componentes/text_field_componente.dart';
 import 'package:cesta_amiga/controllers/auth_controller.dart';
 import 'package:cesta_amiga/controllers/solicitante_controller.dart';
 import 'package:cesta_amiga/library/utils/colors_util.dart';
-import 'package:cesta_amiga/models/Item.dart';
+import 'package:cesta_amiga/models/objects/Item.dart';
 import 'package:cesta_amiga/screens/login_screen.dart';
 import 'package:cesta_amiga/screens/perfil_screen.dart';
 import "package:flutter/material.dart";
@@ -20,7 +20,7 @@ class _SolicitanteScreenState extends State<SolicitanteScreen> {
   SolicitanteController solicitanteController = SolicitanteController();
   final txtDesc = TextEditingController();
   int option = 0;
-  // String frase = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean consectetur bibendum placerat. Praesent non tortor diam. Donec egestas, urna et hendrerit maximus, purus tortor malesuada nisi, in convallis libero dolor ut nisl. Cras blandit non metus sit amet sollicitudin. Pellentesque malesuada luctus ipsum, in mollis nibh mattis a. Nam ullamcorper aliquet scelerisque. Donec a ex ac elit auctor viverra. Aliquam sagittis finibus nulla ac aliquam. Praesent suscipit urna vitae lorem feugiat venenatis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Suspendisse eget rutrum nibh.";
+  String frase = "aaaaa";
 
   @override
   Widget build(BuildContext context) {
@@ -83,17 +83,19 @@ class _SolicitanteScreenState extends State<SolicitanteScreen> {
               fit: BoxFit.cover,
             ),
           ),
-          /* child: Center(
-            child: Text(
-              this.frase,
-              style: TextStyle(
-                color: Colors.white,
-                letterSpacing: 0.3,
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ), */
+          child: Center(
+            child: Observer(builder: (_) {
+              return Text(
+                solicitanteController.descricao,
+                style: TextStyle(
+                  color: Colors.white,
+                  letterSpacing: 0.3,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              );
+            }),
+          ),
         ),
         Container(
           width: MediaQuery.of(context).size.width * 0.5,
@@ -229,11 +231,16 @@ class _SolicitanteScreenState extends State<SolicitanteScreen> {
             placeholder: "Fale mais sobre sua necessidade",
             inputType: TextInputType.text,
             controller: txtDesc,
+            onChanged: (text) {
+              solicitanteController.includeText(text);
+            },
             maxLength: 500,
           ),
           //SizedBox(height: 22),
           this.itens(),
-          this._buildButtom("Solicitar", () {}),
+          this._buildButtom("Solicitar", () {
+            solicitanteController.montaNecessidade();
+          }),
         ],
       ),
     );
@@ -242,20 +249,24 @@ class _SolicitanteScreenState extends State<SolicitanteScreen> {
   Widget itens() {
     return Expanded(
       //color: Colors.black,
-      child: ListView(
-        padding: EdgeInsets.only(top: 22, left: 20, right: 20, bottom: 12),
-        key: Key("SolicitanteScreen"),
-        children: solicitanteController.itens.map((item) {
-          return this.item(item);
-        }).toList(),
-      ),
+      child: Observer(builder: (_) {
+        var itens = solicitanteController.itens;
+        return ListView(
+          padding: EdgeInsets.only(top: 22, left: 20, right: 20, bottom: 12),
+          key: Key("SolicitanteScreen"),
+          children: itens.map((item) {
+            return this.item(item);
+          }).toList(),
+        );
+      }),
     );
   }
 
   Widget item(Item item) {
     int counter = 0;
     return Container(
-      width: 120,
+      width: 150,
+      height: 35,
       margin: EdgeInsets.only(bottom: 8),
       //color: Colors.deepPurple,
       child: Row(
@@ -296,11 +307,7 @@ class _SolicitanteScreenState extends State<SolicitanteScreen> {
               children: [
                 InkWell(
                   onTap: () {
-                    if (counter > 1) {
-                      setState(() {
-                        counter--;
-                      });
-                    }
+                    solicitanteController.subQuantidade(item);
                   },
                   child: Text(
                     "-",
@@ -311,19 +318,19 @@ class _SolicitanteScreenState extends State<SolicitanteScreen> {
                     ),
                   ),
                 ),
-                Text(
-                  "$counter",
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 13,
-                    color: Colors.white,
-                  ),
-                ),
+                Observer(builder: (_) {
+                  return Text(
+                    "${item.quantidade ?? 0}",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 13,
+                      color: Colors.white,
+                    ),
+                  );
+                }),
                 InkWell(
                   onTap: () {
-                    setState(() {
-                      counter += 1;
-                    });
+                    solicitanteController.addQuantidade(item);
                   },
                   child: Text(
                     "+",
@@ -333,7 +340,7 @@ class _SolicitanteScreenState extends State<SolicitanteScreen> {
                       color: Colors.white,
                     ),
                   ),
-                ),
+                )
               ],
             ),
           ),

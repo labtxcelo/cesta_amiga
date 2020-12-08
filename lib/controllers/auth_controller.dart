@@ -1,6 +1,6 @@
 import 'package:cesta_amiga/library/base_store/base_stores.dart';
 import 'package:cesta_amiga/library/utils/requests.dart';
-import 'package:cesta_amiga/models/UserAuth.dart';
+import 'package:cesta_amiga/models/objects/UserAuth.dart';
 import 'package:cesta_amiga/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';

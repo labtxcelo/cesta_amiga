@@ -4,8 +4,9 @@ class Item {
   String nome;
   String peso;
   String tipo;
+  dynamic quantidade;
 
-  Item({this.id, this.litro, this.nome, this.peso, this.tipo});
+  Item();
 
   Item.map(Map<String, dynamic> json) {
     this.id = json['id'];
@@ -13,6 +14,7 @@ class Item {
     this.nome = json['nome'];
     this.peso = json['peso'];
     this.tipo = json['tipo'];
+    this.quantidade = json['quantidade'];
   }
 
   Map<String, dynamic> toMap() {
@@ -22,6 +24,7 @@ class Item {
     data['nome'] = this.nome;
     data['peso'] = this.peso;
     data['tipo'] = this.tipo;
+    data['quantidade'] = this.quantidade;
     return data;
   }
 }

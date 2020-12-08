@@ -1,10 +1,11 @@
-import 'package:cesta_amiga/models/Item.dart';
-import 'package:cesta_amiga/models/UserAuth.dart';
+import 'package:cesta_amiga/models/dto/NecessidadeItemDTO.dart';
+import 'package:cesta_amiga/models/objects/Item.dart';
+import 'package:cesta_amiga/models/objects/UserAuth.dart';
 
 class Necessidade {
   String descricao;
   int id;
-  List<Item> itens;
+  List<NecessidadeItemDTO> itens;
   bool statusEncerrado;
   UserAuth user;
 
@@ -16,9 +17,9 @@ class Necessidade {
     this.statusEncerrado = json['statusEncerrado'];
     this.user = json['user'] != null ? new UserAuth.map(json['user']) : null;
     if (json['itens'] != null) {
-      this.itens = new List<Item>();
+      this.itens = new List<NecessidadeItemDTO>();
       json['itens'].map((v) {
-        itens.add(new Item.map(v));
+        itens.add(new NecessidadeItemDTO.map(v));
       });
     }
   }
