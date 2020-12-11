@@ -228,12 +228,14 @@ abstract class _SolicitanteControllerBase with Store {
   gerarDoacao(Necessidade necessidade, BuildContext context) {
     var body = {
       "necessidade": {
+        "id": necessidade.id,
         "user": {
           "id": necessidade.user.id,
           "usuario": {
             "id": necessidade.user.usuario.id,
             "nome": necessidade.user.usuario.nome,
             "email": necessidade.user.usuario.email,
+            "password": necessidade.user.password,
             "tipoPessoa": necessidade.user.usuario.tipoPessoa,
             "documento": necessidade.user.usuario.documento,
             "cep": necessidade.user.usuario.cep,
