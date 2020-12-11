@@ -1,6 +1,8 @@
 import 'package:cesta_amiga/controllers/auth_controller.dart';
 import 'package:cesta_amiga/controllers/solicitante_controller.dart';
 import 'package:cesta_amiga/library/utils/colors_util.dart';
+import 'package:cesta_amiga/models/dto/NecessidadeItemDTO.dart';
+import 'package:cesta_amiga/models/objects/Necessidade.dart';
 import 'package:cesta_amiga/screens/login_screen.dart';
 import 'package:cesta_amiga/screens/minhas_doacoes_screen.dart';
 import 'package:cesta_amiga/screens/perfil_screen.dart';
@@ -113,42 +115,19 @@ class _FeedScreenState extends State<FeedScreen> {
       children: [
         this.cabecalho(),
         Expanded(
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            children: [
-              this.buildPedido(),
-              this.buildPedido(),
-              this.buildPedido(),
-              this.buildPedido(),
-              /* Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  this.buildPedido(),
-                  this.buildPedido(),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  this.buildPedido(),
-                  this.buildPedido(),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  this.buildPedido(),
-                  this.buildPedido(),
-                ],
-              ), */
-            ],
-          ),
+          child: Observer(builder: (_) {
+            return ListView(
+                scrollDirection: Axis.horizontal,
+                children: solicitanteController.necessidades.map((necessidade) {
+                  return buildPedido(necessidade);
+                }).toList());
+          }),
         ),
       ],
     );
   } //end _buildBody
 
-  Widget buildPedido() {
+  Widget buildPedido(Necessidade necessidade) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width * 0.4;
     return Container(
@@ -194,14 +173,14 @@ class _FeedScreenState extends State<FeedScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  this.solicitante(),
+                  this.solicitante(necessidade),
                   SizedBox(height: 8),
                   Container(
                     height: 1,
                     width: width,
                     color: Colors.black.withOpacity(0.2),
                   ),
-                  this.itens(height * 0.5),
+                  this.itens(necessidade),
                   Padding(
                     padding: EdgeInsets.only(left: 8, bottom: 16, right: 8),
                     child: this._buildButtom("Doar", () {}),
@@ -237,13 +216,13 @@ class _FeedScreenState extends State<FeedScreen> {
     );
   } //end buildButtom
 
-  Widget solicitante() {
+  Widget solicitante(Necessidade necessidade) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(mainAxisAlignment: MainAxisAlignment.start, children: [
           Text(
-            "Maria Conceição Silva",
+            necessidade.user.usuario.nome,
             style: TextStyle(
               color: Colors.black,
               letterSpacing: 0.3,
@@ -254,7 +233,7 @@ class _FeedScreenState extends State<FeedScreen> {
         ]),
         SizedBox(height: 8),
         Text(
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce at quam ut nisl dignissim hendrerit sed vel turpis. Aenean commodo sagittis lorem eu maximus. Vivamus vel gravida nisl, ac tincidunt enim.",
+          necessidade.descricao,
           style: TextStyle(
             color: Colors.black.withOpacity(0.8),
             fontWeight: FontWeight.w500,
@@ -265,64 +244,60 @@ class _FeedScreenState extends State<FeedScreen> {
     );
   }
 
-  Widget itens(double height) {
+  Widget itens(Necessidade necessidade) {
     return Expanded(
-      child: ListView(
-        padding: EdgeInsets.only(top: 8, left: 8, right: 8, bottom: 8),
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                children: [
-                  this.item("Pão"),
-                  this.item("Café"),
-                  this.item("Óleo"),
-                  this.item("Arroz"),
-                  this.item("Carne"),
-                  this.item("Leite"),
-                ],
-              ),
-              //SizedBox(width: 38),
-              Column(
-                children: [
-                  this.item("Açucar"),
-                  this.item("Feijão"),
-                  this.item("Banana"),
-                  this.item("Batata"),
-                  this.item("Tomate"),
-                  this.item("Farinha"),
-                ],
-              )
-            ],
-          ),
-        ],
-      ),
-    );
+        child: ListView(
+            padding: EdgeInsets.only(top: 8, left: 8, right: 8, bottom: 8),
+            children: necessidade.itens.map((item) {
+              return this.item(item);
+            }).toList()));
   }
 
-  Widget item(String item) {
+  Widget item(NecessidadeItemDTO necessidadeItem) {
     int counter = 0;
     return Container(
       width: 120,
-      margin: EdgeInsets.only(bottom: 8),
+      margin: EdgeInsets.only(bottom: 16),
       //color: Colors.deepPurple,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            item,
-            style: TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.w600,
-              fontSize: 12,
-            ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                necessidadeItem.item.nome,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 12,
+                ),
+              ),
+              Text(
+                necessidadeItem.item.litro == null
+                    ? necessidadeItem.item.peso
+                    : necessidadeItem.item.litro,
+                style: TextStyle(
+                  color: Colors.black.withOpacity(0.6),
+                  fontWeight: FontWeight.normal,
+                  fontSize: 10,
+                ),
+              ),
+              Text(
+                "unidades solicitada: ${necessidadeItem.quantidade}",
+                style: TextStyle(
+                  color: Colors.black.withOpacity(0.6),
+                  fontWeight: FontWeight.normal,
+                  fontSize: 10,
+                ),
+              ),
+            ],
           ),
           //SizedBox(width: 34),
           Container(
             padding: EdgeInsets.symmetric(horizontal: 8),
-            height: 20,
-            width: 52,
+            height: 35,
+            width: 62,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(25),
               color: Colors.black,
@@ -333,11 +308,7 @@ class _FeedScreenState extends State<FeedScreen> {
               children: [
                 InkWell(
                   onTap: () {
-                    if (counter > 1) {
-                      setState(() {
-                        counter--;
-                      });
-                    }
+                    solicitanteController.subItemDoacao(necessidadeItem);
                   },
                   child: Text(
                     "-",
@@ -349,7 +320,7 @@ class _FeedScreenState extends State<FeedScreen> {
                   ),
                 ),
                 Text(
-                  "$counter",
+                  "${necessidadeItem.item.quantidade ?? 0}",
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: 13,
@@ -358,9 +329,7 @@ class _FeedScreenState extends State<FeedScreen> {
                 ),
                 InkWell(
                   onTap: () {
-                    setState(() {
-                      counter += 1;
-                    });
+                    solicitanteController.addItemDoacao(necessidadeItem);
                   },
                   child: Text(
                     "+",

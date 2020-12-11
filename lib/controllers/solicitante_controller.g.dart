@@ -146,6 +146,17 @@ mixin _$SolicitanteController on _SolicitanteControllerBase, Store {
   }
 
   @override
+  dynamic gerarSolicitacao(Necessidade necessidade) {
+    final _$actionInfo = _$_SolicitanteControllerBaseActionController
+        .startAction(name: '_SolicitanteControllerBase.gerarSolicitacao');
+    try {
+      return super.gerarSolicitacao(necessidade);
+    } finally {
+      _$_SolicitanteControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   dynamic addQuantidade(Item item) {
     final _$actionInfo = _$_SolicitanteControllerBaseActionController
         .startAction(name: '_SolicitanteControllerBase.addQuantidade');
@@ -162,6 +173,28 @@ mixin _$SolicitanteController on _SolicitanteControllerBase, Store {
         .startAction(name: '_SolicitanteControllerBase.subQuantidade');
     try {
       return super.subQuantidade(item);
+    } finally {
+      _$_SolicitanteControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic addItemDoacao(NecessidadeItemDTO necessidadeItem) {
+    final _$actionInfo = _$_SolicitanteControllerBaseActionController
+        .startAction(name: '_SolicitanteControllerBase.addItemDoacao');
+    try {
+      return super.addItemDoacao(necessidadeItem);
+    } finally {
+      _$_SolicitanteControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic subItemDoacao(NecessidadeItemDTO necessidadeItem) {
+    final _$actionInfo = _$_SolicitanteControllerBaseActionController
+        .startAction(name: '_SolicitanteControllerBase.subItemDoacao');
+    try {
+      return super.subItemDoacao(necessidadeItem);
     } finally {
       _$_SolicitanteControllerBaseActionController.endAction(_$actionInfo);
     }

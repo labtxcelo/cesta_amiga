@@ -17,10 +17,10 @@ class Necessidade {
     this.statusEncerrado = json['statusEncerrado'];
     this.user = json['user'] != null ? new UserAuth.map(json['user']) : null;
     if (json['itens'] != null) {
-      this.itens = new List<NecessidadeItemDTO>();
-      json['itens'].map((v) {
-        itens.add(new NecessidadeItemDTO.map(v));
-      });
+      var list = json['itens'] as List;
+      this.itens = list.map((e) => NecessidadeItemDTO.map(e)).toList();
+    } else {
+      this.itens = [];
     }
   }
 

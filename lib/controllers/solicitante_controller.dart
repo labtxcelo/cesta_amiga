@@ -18,10 +18,10 @@ abstract class _SolicitanteControllerBase with Store {
   List<NecessidadeItemDTO> itensNecessidade = [];
 
   @observable
-  Necessidade necessidade;
+  Necessidade necessidade = Necessidade();
 
   @observable
-  NecessidadeItemDTO necessidadeItemDTO;
+  NecessidadeItemDTO necessidadeItemDTO = NecessidadeItemDTO();
 
   @observable
   String descricao = "sem descrição";
@@ -39,17 +39,74 @@ abstract class _SolicitanteControllerBase with Store {
 
   @action
   montaNecessidade() {
+    this.necessidade.itens = [];
     for (int i = 0; i < itens.length; i++) {
-      if (itens[i].quantidade > 0) {
-        this.necessidadeItemDTO.item = itens[i];
-        this.necessidadeItemDTO.quantidade = itens[i].quantidade;
-        this.necessidadeItemDTO.quantidadeRecebido = 0;
-        this.necessidade.itens.add(this.necessidadeItemDTO);
+      if (itens[i].quantidade != null && itens[i].quantidade > 0) {
+        var necessidadeItem = NecessidadeItemDTO();
+        necessidadeItem.item = itens[i];
+        necessidadeItem.quantidade = itens[i].quantidade;
+        necessidadeItem.quantidadeRecebido = 0;
+        print(necessidadeItem.toMap());
+        this.necessidade.itens.add(necessidadeItem);
+        print("LISTA => ${this.necessidade.itens.asMap()}");
       }
-      this.necessidade.user = authController.user;
-      this.necessidade.descricao = this.descricao;
     }
-    print(this.necessidade);
+    this.necessidade.user = authController.user;
+    this.necessidade.descricao = this.descricao;
+    this.necessidade.statusEncerrado = false;
+    print(this.necessidade.toMap());
+    gerarSolicitacao(this.necessidade);
+  }
+
+  @action
+  gerarSolicitacao(Necessidade necessidade) {
+    var body = {
+      "user": {
+        "id": necessidade.user.id,
+        "usuario": {
+          "id": necessidade.user.usuario.id,
+          "nome": necessidade.user.usuario.nome,
+          "email": necessidade.user.usuario.email,
+          "tipoPessoa": necessidade.user.usuario.tipoPessoa,
+          "documento": necessidade.user.usuario.documento,
+          "cep": necessidade.user.usuario.cep,
+          "estado": necessidade.user.usuario.estado,
+          "cidade": necessidade.user.usuario.cidade,
+          "bairro": necessidade.user.usuario.bairro,
+          "logradouro": necessidade.user.usuario.logradouro,
+          "numero": necessidade.user.usuario.numero,
+          "complemento": necessidade.user.usuario.complemento,
+          "tipoUsuario": necessidade.user.usuario.tipoUsuario
+        },
+        "nome": necessidade.user.nome,
+        "email": necessidade.user.email,
+        "tipoUsuario": necessidade.user.tipoUsuario
+      },
+      "itens": necessidade.itens.map((necessidadeItem) {
+        return {
+          "item": {
+            "id": necessidadeItem.item.id,
+            "nome": necessidadeItem.item.nome,
+            "litro": necessidadeItem.item.litro,
+            "peso": necessidadeItem.item.peso,
+            "tipo": necessidadeItem.item.tipo
+          },
+          "quantidade": necessidadeItem.quantidade,
+          "quantidadeRecebido": 0
+        };
+      }).toList(),
+      "descricao": necessidade.descricao,
+      "statusEncerrado": false
+    };
+    print(body);
+    sendRequest
+        .request(HttpMethod.POST, "necessidade/criar", body: body)
+        .then((response) {
+      print(response);
+    }).catchError((onError) {
+      print('Algo deu errado!');
+      print(onError);
+    });
   }
 
   @action
@@ -82,6 +139,28 @@ abstract class _SolicitanteControllerBase with Store {
       print('Algo deu errado!');
       print(onError);
     });
+  }
+
+  @action
+  addItemDoacao(NecessidadeItemDTO necessidadeItem) {
+    if (necessidadeItem.item.quantidade == null) {
+      necessidadeItem.item.quantidade = 1;
+    } else {
+      if (necessidadeItem.item.quantidade != necessidadeItem.quantidade) {
+        necessidadeItem.item.quantidade++;
+      }
+    }
+    var temp = necessidades;
+    this.necessidades = temp;
+  }
+
+  @action
+  subItemDoacao(NecessidadeItemDTO necessidadeItem) {
+    if (necessidadeItem.item.quantidade != 0) {
+      necessidadeItem.item.quantidade--;
+    }
+    var temp = necessidades;
+    this.necessidades = temp;
   }
 
   @action
