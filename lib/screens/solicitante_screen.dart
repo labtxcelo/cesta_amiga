@@ -5,6 +5,7 @@ import 'package:cesta_amiga/controllers/solicitante_controller.dart';
 import 'package:cesta_amiga/library/utils/colors_util.dart';
 import 'package:cesta_amiga/models/objects/Item.dart';
 import 'package:cesta_amiga/screens/login_screen.dart';
+import 'package:cesta_amiga/screens/minhas_solicitacoes_screen.dart';
 import 'package:cesta_amiga/screens/perfil_screen.dart';
 import "package:flutter/material.dart";
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -135,10 +136,11 @@ class _SolicitanteScreenState extends State<SolicitanteScreen> {
           //Solicitações
           FlatButton(
             onPressed: () {
-              /* Navigator.push(
+              Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => FeedScreen()),
-              ); */
+                MaterialPageRoute(
+                    builder: (context) => MinhasSolicitacoesScreen()),
+              );
             },
             child: Text(
               "Minhas solicitações",

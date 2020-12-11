@@ -32,6 +32,9 @@ abstract class _SolicitanteControllerBase with Store {
   @observable
   List<Necessidade> necessidades = [];
 
+  @observable
+  List<Necessidade> minhasNecessidades = [];
+
   @action
   includeText(String text) {
     this.descricao = text;
@@ -171,6 +174,22 @@ abstract class _SolicitanteControllerBase with Store {
       print(response);
       var listNecessidades = response as List;
       this.necessidades = listNecessidades
+          .map((necessidade) => Necessidade.map(necessidade))
+          .toList();
+    }).catchError((onError) {
+      print('Algo deu errado!');
+      print(onError);
+    });
+  }
+
+  @action
+  buscarMinhasNecessidades(int userId) async {
+    sendRequest
+        .request(HttpMethod.GET, "necessidade/listar-todos/$userId")
+        .then((response) {
+      print(response);
+      var listNecessidades = response as List;
+      this.minhasNecessidades = listNecessidades
           .map((necessidade) => Necessidade.map(necessidade))
           .toList();
     }).catchError((onError) {

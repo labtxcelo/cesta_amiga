@@ -103,6 +103,22 @@ mixin _$SolicitanteController on _SolicitanteControllerBase, Store {
     });
   }
 
+  final _$minhasNecessidadesAtom =
+      Atom(name: '_SolicitanteControllerBase.minhasNecessidades');
+
+  @override
+  List<Necessidade> get minhasNecessidades {
+    _$minhasNecessidadesAtom.reportRead();
+    return super.minhasNecessidades;
+  }
+
+  @override
+  set minhasNecessidades(List<Necessidade> value) {
+    _$minhasNecessidadesAtom.reportWrite(value, super.minhasNecessidades, () {
+      super.minhasNecessidades = value;
+    });
+  }
+
   final _$buscarItensAsyncAction =
       AsyncAction('_SolicitanteControllerBase.buscarItens');
 
@@ -118,6 +134,15 @@ mixin _$SolicitanteController on _SolicitanteControllerBase, Store {
   Future buscarNecessidades() {
     return _$buscarNecessidadesAsyncAction
         .run(() => super.buscarNecessidades());
+  }
+
+  final _$buscarMinhasNecessidadesAsyncAction =
+      AsyncAction('_SolicitanteControllerBase.buscarMinhasNecessidades');
+
+  @override
+  Future buscarMinhasNecessidades(int userId) {
+    return _$buscarMinhasNecessidadesAsyncAction
+        .run(() => super.buscarMinhasNecessidades(userId));
   }
 
   final _$_SolicitanteControllerBaseActionController =
@@ -208,7 +233,8 @@ necessidade: ${necessidade},
 necessidadeItemDTO: ${necessidadeItemDTO},
 descricao: ${descricao},
 itens: ${itens},
-necessidades: ${necessidades}
+necessidades: ${necessidades},
+minhasNecessidades: ${minhasNecessidades}
     ''';
   }
 }

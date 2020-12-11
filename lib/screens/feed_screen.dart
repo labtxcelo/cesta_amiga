@@ -284,7 +284,7 @@ class _FeedScreenState extends State<FeedScreen> {
                 ),
               ),
               Text(
-                "unidades solicitada: ${necessidadeItem.quantidade}",
+                "unidades solicitadas: ${necessidadeItem.quantidade}",
                 style: TextStyle(
                   color: Colors.black.withOpacity(0.6),
                   fontWeight: FontWeight.normal,
