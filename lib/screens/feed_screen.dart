@@ -118,7 +118,9 @@ class _FeedScreenState extends State<FeedScreen> {
           child: Observer(builder: (_) {
             return ListView(
                 scrollDirection: Axis.horizontal,
-                children: solicitanteController.necessidades.map((necessidade) {
+                children: solicitanteController.necessidades.where((element) {
+                  return element.statusEncerrado != true;
+                }).map((necessidade) {
                   return buildPedido(necessidade);
                 }).toList());
           }),
@@ -130,6 +132,7 @@ class _FeedScreenState extends State<FeedScreen> {
   Widget buildPedido(Necessidade necessidade) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width * 0.4;
+    int totalItens = 0;
     return Container(
       margin: EdgeInsets.all(16),
       height: height,
@@ -183,7 +186,9 @@ class _FeedScreenState extends State<FeedScreen> {
                   this.itens(necessidade),
                   Padding(
                     padding: EdgeInsets.only(left: 8, bottom: 16, right: 8),
-                    child: this._buildButtom("Doar", () {}),
+                    child: this._buildButtom("Doar", () {
+                      solicitanteController.gerarDoacao(necessidade, context);
+                    }),
                   )
                 ],
               ),
@@ -294,55 +299,55 @@ class _FeedScreenState extends State<FeedScreen> {
             ],
           ),
           //SizedBox(width: 34),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 8),
-            height: 35,
-            width: 62,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(25),
-              color: Colors.black,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                InkWell(
-                  onTap: () {
-                    solicitanteController.subItemDoacao(necessidadeItem);
-                  },
-                  child: Text(
-                    "-",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 15,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-                Text(
-                  "${necessidadeItem.item.quantidade ?? 0}",
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 13,
-                    color: Colors.white,
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    solicitanteController.addItemDoacao(necessidadeItem);
-                  },
-                  child: Text(
-                    "+",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 10,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+          // Container(
+          //   padding: EdgeInsets.symmetric(horizontal: 8),
+          //   height: 35,
+          //   width: 62,
+          //   decoration: BoxDecoration(
+          //     borderRadius: BorderRadius.circular(25),
+          //     color: Colors.black,
+          //   ),
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //     crossAxisAlignment: CrossAxisAlignment.center,
+          //     children: [
+          //       InkWell(
+          //         onTap: () {
+          //           solicitanteController.subItemDoacao(necessidadeItem);
+          //         },
+          //         child: Text(
+          //           "-",
+          //           style: TextStyle(
+          //             fontWeight: FontWeight.w600,
+          //             fontSize: 15,
+          //             color: Colors.white,
+          //           ),
+          //         ),
+          //       ),
+          //       Text(
+          //         "${necessidadeItem.item.quantidade ?? 0}",
+          //         style: TextStyle(
+          //           fontWeight: FontWeight.w600,
+          //           fontSize: 13,
+          //           color: Colors.white,
+          //         ),
+          //       ),
+          //       InkWell(
+          //         onTap: () {
+          //           solicitanteController.addItemDoacao(necessidadeItem);
+          //         },
+          //         child: Text(
+          //           "+",
+          //           style: TextStyle(
+          //             fontWeight: FontWeight.w600,
+          //             fontSize: 10,
+          //             color: Colors.white,
+          //           ),
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
         ],
       ),
     );

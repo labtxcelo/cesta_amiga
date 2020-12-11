@@ -4,7 +4,6 @@ import 'package:cesta_amiga/library/utils/colors_util.dart';
 import 'package:cesta_amiga/models/dto/NecessidadeItemDTO.dart';
 import 'package:cesta_amiga/models/objects/Necessidade.dart';
 import 'package:cesta_amiga/screens/login_screen.dart';
-import 'package:cesta_amiga/screens/minhas_doacoes_screen.dart';
 import 'package:cesta_amiga/screens/perfil_screen.dart';
 import 'package:cesta_amiga/screens/solicitante_screen.dart';
 
@@ -134,8 +133,8 @@ class _MinhasSolicitacoesScreenState extends State<MinhasSolicitacoesScreen> {
   Widget buildPedido(Necessidade necessidade) {
     return Container(
       margin: EdgeInsets.all(16),
-      height: 300,
-      width: 400,
+      height: 150,
+      width: 100,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(12)),
@@ -151,23 +150,6 @@ class _MinhasSolicitacoesScreenState extends State<MinhasSolicitacoesScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          // Container(
-          //   //height: height,
-          //   width: width * 0.3,
-          //   decoration: BoxDecoration(
-          //     //radius
-          //     borderRadius: BorderRadius.only(
-          //       topLeft: Radius.circular(12),
-          //       bottomLeft: Radius.circular(12),
-          //     ),
-          //     //backGround
-          //     image: DecorationImage(
-          //       image: AssetImage("images/maca.jpg"),
-          //       fit: BoxFit.cover,
-          //     ),
-          //   ),
-          //   child: null,
-          // ),
           Container(),
           Expanded(
             child: Container(
@@ -184,10 +166,12 @@ class _MinhasSolicitacoesScreenState extends State<MinhasSolicitacoesScreen> {
                     color: Colors.black.withOpacity(0.2),
                   ),
                   this.itens(necessidade),
-                  // Padding(
-                  //   padding: EdgeInsets.only(left: 8, bottom: 16, right: 8),
-                  //   child: this._buildButtom("Doar", () {}),
-                  // )
+                  Container(
+                    height: 1,
+                    //width: width,
+                    color: Colors.black.withOpacity(0.2),
+                  ),
+                  this.status(necessidade)
                 ],
               ),
             ),
@@ -219,30 +203,71 @@ class _MinhasSolicitacoesScreenState extends State<MinhasSolicitacoesScreen> {
     );
   } //end buildButtom
 
+  Widget status(Necessidade necessidade) {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+            Text(
+              "Status da solicitação:",
+              style: TextStyle(
+                color: Colors.black,
+                letterSpacing: 0.3,
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
+            ),
+            SizedBox(width: 8),
+            Text(
+              necessidade.statusEncerrado != true
+                  ? "Em andamento"
+                  : "Finalizado",
+              style: TextStyle(
+                color: necessidade.statusEncerrado != true
+                    ? Colors.orangeAccent
+                    : Colors.greenAccent,
+                letterSpacing: 0.3,
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
+            ),
+          ])
+        ],
+      ),
+    );
+  }
+
   Widget solicitante(Necessidade necessidade) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(mainAxisAlignment: MainAxisAlignment.start, children: [
           Text(
-            necessidade.user.usuario.nome,
+            "Descrição:",
             style: TextStyle(
               color: Colors.black,
               letterSpacing: 0.3,
               fontWeight: FontWeight.bold,
-              fontSize: 18,
+              fontSize: 16,
             ),
           ),
-        ]),
-        SizedBox(height: 8),
-        Text(
-          necessidade.descricao,
-          style: TextStyle(
-            color: Colors.black.withOpacity(0.8),
-            fontWeight: FontWeight.w500,
-            fontSize: 12,
+          SizedBox(width: 8),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                necessidade.descricao,
+                style: TextStyle(
+                  color: Colors.black.withOpacity(0.8),
+                  fontWeight: FontWeight.w500,
+                  fontSize: 12,
+                ),
+              ),
+            ],
           ),
-        ),
+        ]),
       ],
     );
   }
@@ -251,17 +276,16 @@ class _MinhasSolicitacoesScreenState extends State<MinhasSolicitacoesScreen> {
     return Expanded(
         child: ListView(
             scrollDirection: Axis.horizontal,
-            padding: EdgeInsets.only(top: 8, left: 8, right: 8, bottom: 8),
+            padding: EdgeInsets.only(top: 8, left: 8, right: 8),
             children: necessidade.itens.map((item) {
               return this.item(item);
             }).toList()));
   }
 
   Widget item(NecessidadeItemDTO necessidadeItem) {
-    int counter = 0;
     return Container(
       width: 120,
-      margin: EdgeInsets.only(bottom: 16),
+      //margin: EdgeInsets.only(bottom: 16),
       //color: Colors.deepPurple,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -297,56 +321,6 @@ class _MinhasSolicitacoesScreenState extends State<MinhasSolicitacoesScreen> {
               ),
             ],
           ),
-          //SizedBox(width: 34),
-          // Container(
-          //   padding: EdgeInsets.symmetric(horizontal: 8),
-          //   height: 35,
-          //   width: 62,
-          //   decoration: BoxDecoration(
-          //     borderRadius: BorderRadius.circular(25),
-          //     color: Colors.black,
-          //   ),
-          //   child: Row(
-          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //     crossAxisAlignment: CrossAxisAlignment.center,
-          //     children: [
-          //       // InkWell(
-          //       //   onTap: () {
-          //       //     solicitanteController.subItemDoacao(necessidadeItem);
-          //       //   },
-          //       //   child: Text(
-          //       //     "-",
-          //       //     style: TextStyle(
-          //       //       fontWeight: FontWeight.w600,
-          //       //       fontSize: 15,
-          //       //       color: Colors.white,
-          //       //     ),
-          //       //   ),
-          //       // ),
-          //       // Text(
-          //       //   "${necessidadeItem.item.quantidade ?? 0}",
-          //       //   style: TextStyle(
-          //       //     fontWeight: FontWeight.w600,
-          //       //     fontSize: 13,
-          //       //     color: Colors.white,
-          //       //   ),
-          //       // ),
-          //       // InkWell(
-          //       //   onTap: () {
-          //       //     solicitanteController.addItemDoacao(necessidadeItem);
-          //       //   },
-          //       //   child: Text(
-          //       //     "+",
-          //       //     style: TextStyle(
-          //       //       fontWeight: FontWeight.w600,
-          //       //       fontSize: 10,
-          //       //       color: Colors.white,
-          //       //     ),
-          //       //   ),
-          //       // ),
-          //     ],
-          //   ),
-          // ),
         ],
       ),
     );

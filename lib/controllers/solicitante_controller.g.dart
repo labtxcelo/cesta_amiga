@@ -119,6 +119,22 @@ mixin _$SolicitanteController on _SolicitanteControllerBase, Store {
     });
   }
 
+  final _$minhasDoacoesAtom =
+      Atom(name: '_SolicitanteControllerBase.minhasDoacoes');
+
+  @override
+  List<Doacao> get minhasDoacoes {
+    _$minhasDoacoesAtom.reportRead();
+    return super.minhasDoacoes;
+  }
+
+  @override
+  set minhasDoacoes(List<Doacao> value) {
+    _$minhasDoacoesAtom.reportWrite(value, super.minhasDoacoes, () {
+      super.minhasDoacoes = value;
+    });
+  }
+
   final _$buscarItensAsyncAction =
       AsyncAction('_SolicitanteControllerBase.buscarItens');
 
@@ -145,6 +161,15 @@ mixin _$SolicitanteController on _SolicitanteControllerBase, Store {
         .run(() => super.buscarMinhasNecessidades(userId));
   }
 
+  final _$buscarMinhasDoacoesAsyncAction =
+      AsyncAction('_SolicitanteControllerBase.buscarMinhasDoacoes');
+
+  @override
+  Future buscarMinhasDoacoes(int userId) {
+    return _$buscarMinhasDoacoesAsyncAction
+        .run(() => super.buscarMinhasDoacoes(userId));
+  }
+
   final _$_SolicitanteControllerBaseActionController =
       ActionController(name: '_SolicitanteControllerBase');
 
@@ -160,22 +185,22 @@ mixin _$SolicitanteController on _SolicitanteControllerBase, Store {
   }
 
   @override
-  dynamic montaNecessidade() {
+  dynamic montaNecessidade(BuildContext context) {
     final _$actionInfo = _$_SolicitanteControllerBaseActionController
         .startAction(name: '_SolicitanteControllerBase.montaNecessidade');
     try {
-      return super.montaNecessidade();
+      return super.montaNecessidade(context);
     } finally {
       _$_SolicitanteControllerBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
-  dynamic gerarSolicitacao(Necessidade necessidade) {
+  dynamic gerarSolicitacao(Necessidade necessidade, BuildContext context) {
     final _$actionInfo = _$_SolicitanteControllerBaseActionController
         .startAction(name: '_SolicitanteControllerBase.gerarSolicitacao');
     try {
-      return super.gerarSolicitacao(necessidade);
+      return super.gerarSolicitacao(necessidade, context);
     } finally {
       _$_SolicitanteControllerBaseActionController.endAction(_$actionInfo);
     }
@@ -226,6 +251,17 @@ mixin _$SolicitanteController on _SolicitanteControllerBase, Store {
   }
 
   @override
+  dynamic gerarDoacao(Necessidade necessidade, BuildContext context) {
+    final _$actionInfo = _$_SolicitanteControllerBaseActionController
+        .startAction(name: '_SolicitanteControllerBase.gerarDoacao');
+    try {
+      return super.gerarDoacao(necessidade, context);
+    } finally {
+      _$_SolicitanteControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 itensNecessidade: ${itensNecessidade},
@@ -234,7 +270,8 @@ necessidadeItemDTO: ${necessidadeItemDTO},
 descricao: ${descricao},
 itens: ${itens},
 necessidades: ${necessidades},
-minhasNecessidades: ${minhasNecessidades}
+minhasNecessidades: ${minhasNecessidades},
+minhasDoacoes: ${minhasDoacoes}
     ''';
   }
 }

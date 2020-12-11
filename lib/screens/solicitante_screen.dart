@@ -34,7 +34,7 @@ class _SolicitanteScreenState extends State<SolicitanteScreen> {
   } //end build
 
   Widget _buildBodyPersonalizada() {
-    return option != 1
+    return option == 0
         ? Stack(
             children: [
               this._personalizada(),
@@ -241,7 +241,7 @@ class _SolicitanteScreenState extends State<SolicitanteScreen> {
           //SizedBox(height: 22),
           this.itens(),
           this._buildButtom("Solicitar", () {
-            solicitanteController.montaNecessidade();
+            solicitanteController.montaNecessidade(context);
           }),
         ],
       ),
@@ -369,8 +369,12 @@ class _SolicitanteScreenState extends State<SolicitanteScreen> {
             SizedBox(width: 24),
             this._card(
               "Tradicional",
-              "Aqui a cesta tem os itens e quantidade unitária selecionados!",
-              () {},
+              "Aqui a cesta tem os itens e quantidade unitária indicadas ao seu perfil!",
+              () {
+                setState(() {
+                  this.option = 2;
+                });
+              },
             )
           ],
         ),

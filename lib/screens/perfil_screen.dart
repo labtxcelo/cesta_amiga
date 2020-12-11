@@ -3,6 +3,8 @@ import 'package:cesta_amiga/library/utils/colors_util.dart';
 import 'package:cesta_amiga/screens/feed_screen.dart';
 import 'package:cesta_amiga/screens/login_screen.dart';
 import 'package:cesta_amiga/screens/minhas_doacoes_screen.dart';
+import 'package:cesta_amiga/screens/minhas_solicitacoes_screen.dart';
+import 'package:cesta_amiga/screens/solicitante_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
@@ -64,14 +66,24 @@ class _PerfilScreenState extends State<PerfilScreen> {
           ),
           //Solicitações
           FlatButton(
-            onPressed: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => FeedScreen()),
-              );
-            },
+            onPressed: authController.user.tipoUsuario.toLowerCase() == "doador"
+                ? () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => FeedScreen()),
+                    );
+                  }
+                : () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => SolicitanteScreen()),
+                    );
+                  },
             child: Text(
-              "Feed",
+              authController.user.tipoUsuario.toLowerCase() == "doador"
+                  ? "Feed"
+                  : "Solicitar Doação",
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 16,
@@ -81,14 +93,24 @@ class _PerfilScreenState extends State<PerfilScreen> {
           ),
           //Minhas doações
           FlatButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => MinhasDoacoes()),
-              );
-            },
+            onPressed: authController.user.tipoUsuario.toLowerCase() == "doador"
+                ? () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => MinhasDoacoes()),
+                    );
+                  }
+                : () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => MinhasSolicitacoesScreen()),
+                    );
+                  },
             child: Text(
-              "Minhas doações",
+              authController.user.tipoUsuario.toLowerCase() == "doador"
+                  ? "Minhas doações"
+                  : "Minhas solicitações",
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 16,
